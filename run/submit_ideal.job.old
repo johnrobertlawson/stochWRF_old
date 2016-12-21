@@ -1,0 +1,31 @@
+#!/bin/sh
+
+pwd
+
+#SBATCH --tasks-per-node=15
+#SBATCH -n 60
+#SBATCH -J WRF_ideal
+#SBATCH -o WRF_ideal.out
+#SBATCH -e WRF_ideal.err
+#SBATCH -t 00:45:00
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=john.lawson@noaa.gov
+#SBATCH --exclusive
+#SBATCH -D /home/johnlawson/WRF_v3.8/WRFV3/run
+#SBATCH -p wof
+
+ulimit -s unlimited
+
+# The Intel compiler is not sufficient to provide all the libraries for WRF
+# Ideally you would load the modules that were loaded when you compiled WRF
+# For example:
+module load WRF/3.7.1-intel-2016a-dmpar
+
+# Then unload the WRF module so it does not cause conflicts with your locally compiled WRF
+module unload WRF/3.7.1-intel-2016a-dmpar
+
+mpirun -n 60 ./ideal.exe
+#mpirun ./ideal.exe
+#mpiexec -n 60 ./ideal.exe
+
+#time aprun -ss -n 60 -d $OMP_NUM_THREADS -j 0  ./ideal.exe

@@ -1,0 +1,352 @@
+None of WRF_EM_CORE, WRF_NMM_CORE, 
+        specified in shell environment.... 
+ 
+============================================================================================== 
+ 
+V3.8      
+ 
+Compiling: WRF_EM_CORE  
+WRFIO_NCD_LARGE_FILE_SUPPORT=1
+ 
+Linux schooner3.oscer.ou.edu 3.10.0-229.14.1.el7.x86_64 #1 SMP Tue Sep 15 15:05:51 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+ 
+Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 16.0.1.150 Build 20151021
+Copyright (C) 1985-2015 Intel Corporation.  All rights reserved.
+
+ 
+============================================================================================== 
+ 
+setting parallel make -j 2
+ 
+============================================================================================== 
+ 
+The following indicate the compilers selected to build the WRF system
+ 
+Serial Fortran compiler (mostly for tool generation):
+which SFC
+/opt/oscer/software/ifort/2016.1.150-GCC-4.9.3-2.25/compilers_and_libraries_2016.1.150/linux/bin/intel64/ifort
+ 
+Serial C compiler (mostly for tool generation):
+which SCC
+/opt/oscer/software/icc/2016.1.150-GCC-4.9.3-2.25/compilers_and_libraries_2016.1.150/linux/bin/intel64/icc
+ 
+Fortran compiler for the model source code:
+which FC
+which: invalid option -- 'f'
+which: invalid option -- '9'
+which: invalid option -- '0'
+which: invalid option -- '='
+which: invalid option -- 'f'
+which: invalid option -- 'o'
+which: invalid option -- 'r'
+which: invalid option -- 't'
+Usage: which [options] [--] COMMAND [...]
+Write the full path of COMMAND(s) to standard output.
+
+  --version, -[vV] Print version and exit successfully.
+  --help,          Print this help and exit successfully.
+  --skip-dot       Skip directories in PATH that start with a dot.
+  --skip-tilde     Skip directories in PATH that start with a tilde.
+  --show-dot       Don't expand a dot to current directory in output.
+  --show-tilde     Output a tilde for HOME directory for non-root.
+  --tty-only       Stop processing options on the right if not on tty.
+  --all, -a        Print all matches in PATH, not just the first
+  --read-alias, -i Read list of aliases from stdin.
+  --skip-alias     Ignore option --read-alias; don't read stdin.
+  --read-functions Read shell functions from stdin.
+  --skip-functions Ignore option --read-functions; don't read stdin.
+
+Recommended use is to write the output of (alias; declare -f) to standard
+input, so that which can show aliases and shell functions. See which(1) for
+examples.
+
+If the options --read-alias and/or --read-functions are specified then the
+output can be a full alias or function definition, optionally followed by
+the full path of each command used inside of those.
+
+Report bugs to <which-bugs@gnu.org>.
+Will use 'time' to report timing information
+ 
+C compiler for the model source code:
+which CC
+/opt/oscer/software/impi/5.1.2.150-iccifort-2016.1.150-GCC-4.9.3-2.25/bin64/mpicc
+ 
+============================================================================================== 
+ 
+make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " ext
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+( cd frame ; make -i -r externals )
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 ; \
+          make -j 2 FC="ifort  -real-size `expr 8 \* 4` -i4  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" \
+          CPP="/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I. -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0 -traditional" AR="ar" ARFLAGS="ru" )
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90'
+make[3]: Nothing to be done for `default'.
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf ; \
+          make -j 2 NETCDFPATH="/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a" RANLIB="ranlib" CPP="/lib/cpp -P" \
+          CC="icc " CFLAGS="-w -O3 -xAVX -DDM_PARALLEL -DMAX_HISTORY=25 -DNMM_CORE=0" \
+          FC="ifort  -real-size `expr 8 \* 4` -i4  -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " TRADFLAG="-traditional" AR="ar" ARFLAGS="ru" )
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/ioapi_share ; \
+          make -i -r NATIVE_RWORDSIZE="4" RWORDSIZE="4" AR="ar" ARFLAGS="ru" )
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/ioapi_share'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/ioapi_share'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share ; \
+          make -j 2 CC="icc " CFLAGS="-w -O3 -xAVX -DDM_PARALLEL -DMAX_HISTORY=25 -DNMM_CORE=0" RM="rm -f" RANLIB="ranlib" CPP="/lib/cpp -P" \
+          FC="ifort  -real-size `expr 8 \* 4` -i4 -I.  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   " TRADFLAG="-traditional" AR="ar" ARFLAGS="ru" archive) 
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share'
+make[4]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share'
+ar ru ./libio_grib_share.a io_grib_share.o get_region_center.o gridnav.o open_file.o
+ranlib ./libio_grib_share.a
+make[4]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share'
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1 ; \
+          make -j 2 CC="icc " CFLAGS="-w -O3 -xAVX -DDM_PARALLEL -DMAX_HISTORY=25 -DNMM_CORE=0" RM="rm -f" RANLIB="ranlib" CPP="/lib/cpp -P" \
+          FC="ifort  -real-size `expr 8 \* 4` -i4 -I.  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   " TRADFLAG="-traditional" AR="ar" ARFLAGS="ru" archive)
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1'
+        Doing make archive on library subdirectory MEL_grib1
+make[4]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/MEL_grib1'
+make[5]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/MEL_grib1'
+ar ru ../libio_grib1.a FTP_getfile.o apply_bitmap.o display_gribhdr.o gbyte.o grib_dec.o grib_enc.o grib_seek.o gribgetbds.o gribgetbms.o gribgetgds.o gribgetpds.o gribhdr2file.o gribputbds.o gribputgds.o gribputpds.o hdr_print.o init_dec_struct.o init_enc_struct.o init_gribhdr.o init_struct.o ld_dec_lookup.o ld_enc_input.o ld_enc_lookup.o ld_grib_origctrs.o make_default_grbfn.o make_grib_log.o map_lvl.o map_parm.o pack_spatial.o prt_inp_struct.o upd_child_errmsg.o prt_badmsg.o swap.o grib_uthin.o set_bytes.o
+ranlib ../libio_grib1.a
+make[5]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/MEL_grib1'
+make[4]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/MEL_grib1'
+        Doing make archive on library subdirectory grib1_util
+make[4]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/grib1_util'
+make[5]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/grib1_util'
+ar ru ../libio_grib1.a alloc_2d.o read_grib.o write_grib.o
+ranlib ../libio_grib1.a
+make[5]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/grib1_util'
+make[4]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/grib1_util'
+        Doing make archive on library subdirectory WGRIB
+make[4]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/WGRIB'
+make[4]: Nothing to be done for `archive'.
+make[4]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/WGRIB'
+make[4]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1'
+ar ru ./libio_grib1.a grib1_routines.o gribmap.o io_grib1.o trim.o
+ranlib ./libio_grib1.a
+make[4]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1'
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int ; \
+          make -j 2 CC="mpicc -cc=icc  -DMPI2_SUPPORT -DFSEEKO64_OK " CFLAGS_LOCAL="-w -O3 -xAVX" RM="rm -f" RANLIB="ranlib" CPP="/lib/cpp -P" \
+          FC="mpif90 -f90=ifort  -real-size `expr 8 \* 4` -i4  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   " FGREP="fgrep -iq" \
+          TRADFLAG="-traditional" AR="ar" ARFLAGS="ru" ARCHFLAGS="-DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0" all )
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int'
+( cd /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/fftpack/fftpack5 ; \
+          make -j 2 FC="ifort " FFLAGS="-real-size `expr 8 \* 4` -i4  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" AR="ar" \
+          ARFLAGS="ru" CPP="/lib/cpp -P" CPPFLAGS="-DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional " RM="rm -f" )
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/fftpack/fftpack5'
+ar ru libfftpack.a c1f2kb.o  cfft1b.o  cmf3kf.o  cosqb1.o  costmi.o   dcosq1f.o  dfftb1.o   mradb2.o  mrfti1.o  r1fgkf.o     rfft2i.o  sinqmi.o  z1f2kf.o  zfft1f.o  zmf4kb.o c1f2kf.o  cfft1f.o  cmf4kb.o  cosqf1.o  d1f2kb.o   dcosq1i.o  dfftf1.o   mradb3.o  msntb1.o  r4_factor.o  rfftb1.o  sint1b.o  z1f3kb.o  zfft1i.o  zmf4kf.o c1f3kb.o  cfft1i.o  cmf4kf.o  cosqmb.o  d1f2kf.o   dcosqb1.o  dffti1.o   mradb4.o  msntf1.o  r4_mcfti1.o  rfftf1.o  sint1f.o  z1f3kf.o  zfft2b.o  zmf5kb.o c1f3kf.o  cfft2b.o  cmf5kb.o  cosqmf.o  d1f3kb.o   dcosqf1.o  dsint1b.o  mradb5.o  r1f2kb.o  r4_tables.o  rffti1.o  sint1i.o  z1f4kb.o  zfft2f.o  zmf5kf.o c1f4kb.o  cfft2f.o  cmf5kf.o  cosqmi.o  d1f3kf.o   dcost1b.o  dsint1f.o  mradbg.o  r1f2kf.o  r8_factor.o  rfftmb.o  sintb1.o  z1f4kf.o  zfft2i.o  zmfgkb.o c1f4kf.o  cfft2i.o  cmfgkb.o  cost1b.o  d1f4kb.o   dcost1f.o  dsint1i.o  mradf2.o  r1f3kb.o  r8_mcfti1.o  rfftmf.o  sintf1.o  z1f5kb.o  zfftmb.o  zmfgkf.o c1f5kb.o  cfftmb.o  cmfgkf.o  cost1f.o  d1f4kf.o   dcost1i.o  dsintb1.o  mradf3.o  r1f3kf.o  r8_tables.o  rfftmi.o  sintmb.o  z1f5kf.o  zfftmf.o  zmfm1b.o c1f5kf.o  cfftmf.o  cmfm1b.o  cost1i.o  d1f5kb.o   dcostb1.o  dsintf1.o  mradf4.o  r1f4kb.o  rfft1b.o     sinq1b.o  sintmf.o  z1fgkb.o  zfftmi.o  zmfm1f.o c1fgkb.o  cfftmi.o  cmfm1f.o  costb1.o  d1f5kf.o   dcostf1.o  mcsqb1.o   mradf5.o  r1f4kf.o  rfft1f.o     sinq1f.o  sintmi.o  z1fgkf.o  zmf2kb.o c1fgkf.o  cmf2kb.o  cosq1b.o  costf1.o  d1fgkb.o   dfft1b.o   mcsqf1.o   mradfg.o  r1f5kb.o  rfft1i.o     sinq1i.o  xercon.o  z1fm1b.o  zmf2kf.o c1fm1b.o  cmf2kf.o  cosq1f.o  costmb.o  d1fgkf.o   dfft1f.o   mcstb1.o   mrftb1.o  r1f5kf.o  rfft2b.o     sinqmb.o  xerfft.o  z1fm1f.o  zmf3kb.o c1fm1f.o  cmf3kb.o  cosq1i.o  costmf.o  dcosq1b.o  dfft1i.o   mcstf1.o   mrftf1.o  r1fgkb.o  rfft2f.o     sinqmf.o  z1f2kb.o  zfft1b.o  zmf3kf.o 
+ranlib libfftpack.a
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/fftpack/fftpack5'
+( if [ ! -e /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/gen_comms.c ] ; then \
+          /bin/cp /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/gen_comms_warning /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/gen_comms.c ; \
+          cat /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/RSL_LITE/gen_comms.c >> /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/gen_comms.c ; fi )
+( if [ ! -e module_dm.F ] ; then /bin/cp module_dm_warning module_dm.F ; \
+          cat /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/RSL_LITE/module_dm.F >> module_dm.F ; fi )
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " toolsdir
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+( cd tools ; make -i -r CC_TOOLS_CFLAGS="-DNMM_CORE=0" CC_TOOLS="gcc -DIWORDSIZE=4 -DMAX_HISTORY=25" )
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools'
+make[2]: `registry' is up to date.
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+/bin/rm -f main/libwrflib.a main/libwrflib.lib
+make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " framework
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+( cd frame ; make -i -r -j 2 framework; \
+          cd ../external/io_netcdf ; \
+          make -i -r NETCDFPATH="/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a" FC="mpif90 -f90=ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" \
+               CPP="/lib/cpp -P" LDFLAGS=" -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX " TRADFLAG="-traditional" ESMF_IO_LIB_EXT="-L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time" \
+       LIB_LOCAL="" \
+               ESMF_MOD_DEPENDENCE="/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90/module_utility.o" AR="INTERNAL_BUILD_ERROR_SHOULD_NOT_NEED_AR" diffwrf; \
+          cd ../io_netcdf ; \
+          make -i -r NETCDFPATH="/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a" FC="ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" \
+               CPP="/lib/cpp -P" LDFLAGS=" -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX " TRADFLAG="-traditional" ESMF_IO_LIB_EXT="-L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time" \
+       LIB_LOCAL="" \
+               ESMF_MOD_DEPENDENCE="/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90/module_utility.o" AR="INTERNAL_BUILD_ERROR_SHOULD_NOT_NEED_AR"; \
+          cd ../io_pio ; \
+          echo SKIPPING PIO BUILD make -i -r NETCDFPATH="" FC="ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" \
+               CPP="/lib/cpp -P" LDFLAGS=" -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX " TRADFLAG="-traditional" ESMF_IO_LIB_EXT="-L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time" \
+       LIB_LOCAL="" \
+               ESMF_MOD_DEPENDENCE="/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90/module_utility.o" AR="INTERNAL_BUILD_ERROR_SHOULD_NOT_NEED_AR"; \
+          cd ../io_int ; \
+          make -i -r SFC="ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " FC="ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " RANLIB="ranlib" CPP="/lib/cpp -P -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM" DM_FC="mpif90 -f90=ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  "\
+               TRADFLAG="-traditional" ESMF_IO_LIB_EXT="-L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time" \
+               ESMF_MOD_DEPENDENCE="/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90/module_utility.o" AR="INTERNAL_BUILD_ERROR_SHOULD_NOT_NEED_AR" diffwrf ; \
+          cd ../../frame )
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame'
+ar ru ../main/libwrflib.a module_driver_constants.o module_domain_type.o module_streams.o module_domain.o module_integrate.o module_timing.o module_configure.o module_tiles.o module_machine.o module_nesting.o module_wrf_error.o module_state_description.o module_sm.o module_io.o module_comm_dm.o module_comm_dm_0.o module_comm_dm_1.o module_comm_dm_2.o module_comm_dm_3.o module_comm_dm_4.o module_comm_nesting_dm.o module_dm.o module_quilt_outbuf_ops.o module_io_quilt.o module_intermediate_nmm.o module_cpl.o module_cpl_oasis3.o module_clear_halos.o wrf_num_bytes_between.o wrf_shutdown.o wrf_debug.o libmassv.o collect_on_comm.o hires_timer.o clog.o nl_get_0_routines.o nl_get_1_routines.o nl_get_2_routines.o nl_get_3_routines.o nl_get_4_routines.o nl_get_5_routines.o nl_get_6_routines.o nl_get_7_routines.o nl_set_0_routines.o nl_set_1_routines.o nl_set_2_routines.o nl_set_3_routines.o nl_set_4_routines.o nl_set_5_routines.o nl_set_6_routines.o nl_set_7_routines.o  module_alloc_space_0.o module_alloc_space_1.o module_alloc_space_2.o module_alloc_space_3.o module_alloc_space_4.o module_alloc_space_5.o module_alloc_space_6.o module_alloc_space_7.o module_alloc_space_8.o module_alloc_space_9.o
+ar: creating ../main/libwrflib.a
+ranlib ../main/libwrflib.a
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame'
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+x=`echo "mpif90 -f90=ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte  " | awk '{print $1}'` ; export x ; \
+if [ $x = "gfortran" ] ; then \
+           echo removing external declaration of iargc for gfortran ; \
+   /lib/cpp -P -P -traditional -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include -I../ioapi_share diffwrf.F90 | sed '/integer *, *external.*iargc/d' > diffwrf.f ;\
+        else \
+   /lib/cpp -P -P -traditional -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include -I../ioapi_share diffwrf.F90 > diffwrf.f ; \
+        fi
+mpif90 -f90=ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -c  -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include -I../ioapi_share diffwrf.f
+diffwrf io_netcdf is being built now. 
+ld: /home/mansell/local/netcdf4331par/lib/libnetcdf.a(libnetcdf4_la-nc4hdf.o): undefined reference to symbol 'H5DSattach_scale'
+/opt/oscer/software/HDF5/1.8.16-intel-2016a/lib/libhdf5_hl.so.10: error adding symbols: DSO missing from command line
+make[2]: [diffwrf] Error 1 (ignored)
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf'
+SKIPPING PIO BUILD make -i -r NETCDFPATH= FC=ifort  -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   RANLIB=ranlib CPP=/lib/cpp -P LDFLAGS= -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX  TRADFLAG=-traditional ESMF_IO_LIB_EXT=-L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time LIB_LOCAL= ESMF_MOD_DEPENDENCE=/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90/module_utility.o AR=INTERNAL_BUILD_ERROR_SHOULD_NOT_NEED_AR
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int'
+make[2]: `diffwrf' is up to date.
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " shared
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+if [ "`echo -j 2 | sed -e 's/-j//g' -e 's/ \+//g'`" -gt "6" ] ; then \
+  ( cd share ; make -i -r -j 6 ) ;  \
+else \
+  ( cd share ; make -i -r -j 2 ) ;  \
+fi
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share'
+if [ 0 -eq 1 ] ; then \
+                  make -i -r nmm_contrib                                      ; \
+                  ar ru ../main/libwrflib.a module_model_constants.o module_bc_time_utilities.o module_get_file_names.o module_compute_geop.o module_check_a_mundo.o module_random.o module_llxy.o module_interp_nmm.o module_interp_store.o module_MPP.o  module_date_time.o module_bc.o module_io_wrf.o module_soil_pre.o  module_io_domain.o               module_optional_input.o          solve_interface.o mediation_interp_domain.o mediation_force_domain.o mediation_feedback_domain.o start_domain.o init_modules.o set_timekeeping.o interp_fcn.o sint.o wrf_ext_write_field.o wrf_ext_read_field.o  wrf_tsin.o landread.o track_driver.o track_input.o bobrand.o wrf_timeseries.o track_driver.o wrf_fddaobs_in.o mediation_nest_move.o setfeenv.o input_wrf.o output_wrf.o wrf_bdyout.o wrf_bdyin.o dfi.o mediation_integrate.o mediation_wrfmain.o    ; \
+                  else                                                         \
+                  ar ru ../main/libwrflib.a module_model_constants.o module_bc_time_utilities.o module_get_file_names.o module_compute_geop.o module_check_a_mundo.o module_random.o module_llxy.o module_interp_nmm.o module_interp_store.o module_MPP.o  module_date_time.o module_bc.o module_io_wrf.o module_soil_pre.o  module_io_domain.o               module_optional_input.o          solve_interface.o mediation_interp_domain.o mediation_force_domain.o mediation_feedback_domain.o start_domain.o init_modules.o set_timekeeping.o interp_fcn.o sint.o wrf_ext_write_field.o wrf_ext_read_field.o  wrf_tsin.o landread.o track_driver.o track_input.o bobrand.o wrf_timeseries.o track_driver.o wrf_fddaobs_in.o mediation_nest_move.o setfeenv.o input_wrf.o output_wrf.o wrf_bdyout.o wrf_bdyin.o dfi.o mediation_integrate.o mediation_wrfmain.o              ; \
+                fi
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " physics
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+if [ 0  -eq 0 ] ; then \
+	( cd phys ; make -i -r CF2=" " ) ; \
+else \
+	( cd phys ; make -i -r CF2="../chem/module_data_mosaic_asect.o" ) ; \
+fi
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys'
+if [ 0 -eq 1 ] ; then \
+                  make -i -r -j 2 nmm_contrib  ; \
+                  ar ru ../main/libwrflib.a module_cam_shr_kind_mod.o module_cam_support.o module_cam_shr_const_mod.o module_cam_physconst.o module_cam_cldwat.o module_cam_wv_saturation.o module_cam_esinti.o module_cam_gffgch.o module_cam_error_function.o module_cam_constituents.o module_cam_trb_mtn_stress.o module_cam_molec_diff.o module_cam_upper_bc.o module_cam_bl_diffusion_solver.o module_cam_bl_eddy_diff.o module_cam_mp_microp_aero.o module_cam_mp_cldwat2m_micro.o module_cam_mp_ndrop.o module_cam_mp_modal_aero_initialize_data_phys.o module_cam_mp_radconstants.o module_cam_mp_conv_water.o module_cam_mp_qneg3.o module_data_cam_mam_aero.o module_data_cam_mam_asect.o module_cam_infnan.o module_bl_ysu.o module_bl_shinhong.o module_bl_mrf.o module_bl_gfs.o module_bl_gfs2011.o module_bl_myjpbl.o module_bl_qnsepbl.o module_bl_acm.o module_bl_mynn.o module_bl_fogdes.o module_bl_gwdo.o module_bl_myjurb.o module_bl_boulac.o module_bl_camuwpbl_driver.o module_bl_mfshconvpbl.o module_shcu_camuwshcu_driver.o module_shcu_camuwshcu.o module_shcu_grims.o module_cu_camzm_driver.o module_cu_camzm.o module_bl_temf.o module_bl_gbmpbl.o module_cu_g3.o module_cu_kf.o module_cu_bmj.o module_cu_kfeta.o module_cu_mskf.o module_cu_tiedtke.o module_cu_ntiedtke.o module_cu_gd.o module_cu_gf.o module_cu_nsas.o module_cu_sas.o module_cu_mesosas.o module_cu_osas.o module_cu_kfcup.o module_mp_radar.o module_mp_kessler.o module_mp_lin.o module_mp_sbu_ylin.o module_mp_wsm3.o module_mp_wsm5.o module_mp_wsm6.o module_mp_etanew.o module_mp_fer_hires.o module_mp_HWRF.o module_mp_thompson.o module_mp_full_sbm.o module_mp_fast_sbm.o module_ltng_lpi.o module_mp_gsfcgce.o module_mp_morr_two_moment.o module_mp_milbrandt2mom.o module_mp_nssl_2mom.o module_mp_wdm5.o module_mp_wdm6.o module_mp_cammgmp_driver.o module_ra_sw.o module_ra_clWRF_support.o module_ra_gsfcsw.o module_ra_goddard.o module_ra_rrtm.o module_ra_rrtmg_lw.o module_ra_rrtmg_sw.o module_ra_rrtmg_lwf.o module_ra_rrtmg_swf.o module_ra_cam_support.o module_ra_cam.o module_ra_gfdleta.o module_ra_flg.o module_ra_HWRF.o module_ra_hs.o module_ra_aerosol.o module_sf_sfclay.o module_sf_sfclayrev.o module_sf_gfs.o module_sf_exchcoef.o module_sf_gfdl.o module_sf_slab.o module_sf_noahdrv.o module_sf_noahlsm.o module_sf_clm.o module_sf_ssib.o module_sf_noah_seaice.o module_sf_noah_seaice_drv.o module_sf_noahlsm_glacial_only.o module_sf_noahmp_groundwater.o module_sf_noahmpdrv.o module_sf_noahmplsm.o module_sf_noahmp_glacier.o module_sf_urban.o module_sf_bep.o module_sf_bep_bem.o module_sf_bem.o module_sf_pxlsm.o module_sf_pxlsm_data.o module_sf_ruclsm.o module_sf_sfcdiags.o module_sf_sfcdiags_ruclsm.o module_sf_sstskin.o module_sf_tmnupdate.o module_sf_ocean_driver.o module_sf_oml.o module_sf_3dpwp.o module_sf_myjsfc.o module_sf_qnsesfc.o module_sf_mynn.o module_sf_fogdes.o module_sf_pxsfclay.o module_sf_temfsfclay.o module_sf_idealscmsfclay.o module_sf_scmflux.o module_sf_scmskintemp.o module_physics_addtendc.o module_physics_init.o module_gfs_machine.o module_gfs_funcphys.o module_gfs_physcons.o module_progtm.o module_pbl_driver.o module_data_gocart_dust.o module_cumulus_driver.o module_shallowcu_driver.o module_microphysics_driver.o module_microphysics_zero_out.o module_mixactivate.o module_radiation_driver.o module_surface_driver.o module_lightning_driver.o module_ltng_cpmpr92z.o module_ltng_crmpr92.o module_ltng_iccg.o module_fdda_psufddagd.o module_fdda_spnudging.o module_fddagd_driver.o module_fddaobs_rtfdda.o module_fddaobs_driver.o module_wind_fitch.o module_sf_lake.o module_diagnostics_driver.o  \
+                                     \
+                                   module_diag_refl.o ; \
+                else                                                         \
+                  make -i -r -j 2 non_nmm      ; \
+                  ar ru ../main/libwrflib.a module_cam_shr_kind_mod.o module_cam_support.o module_cam_shr_const_mod.o module_cam_physconst.o module_cam_cldwat.o module_cam_wv_saturation.o module_cam_esinti.o module_cam_gffgch.o module_cam_error_function.o module_cam_constituents.o module_cam_trb_mtn_stress.o module_cam_molec_diff.o module_cam_upper_bc.o module_cam_bl_diffusion_solver.o module_cam_bl_eddy_diff.o module_cam_mp_microp_aero.o module_cam_mp_cldwat2m_micro.o module_cam_mp_ndrop.o module_cam_mp_modal_aero_initialize_data_phys.o module_cam_mp_radconstants.o module_cam_mp_conv_water.o module_cam_mp_qneg3.o module_data_cam_mam_aero.o module_data_cam_mam_asect.o module_cam_infnan.o module_bl_ysu.o module_bl_shinhong.o module_bl_mrf.o module_bl_gfs.o module_bl_gfs2011.o module_bl_myjpbl.o module_bl_qnsepbl.o module_bl_acm.o module_bl_mynn.o module_bl_fogdes.o module_bl_gwdo.o module_bl_myjurb.o module_bl_boulac.o module_bl_camuwpbl_driver.o module_bl_mfshconvpbl.o module_shcu_camuwshcu_driver.o module_shcu_camuwshcu.o module_shcu_grims.o module_cu_camzm_driver.o module_cu_camzm.o module_bl_temf.o module_bl_gbmpbl.o module_cu_g3.o module_cu_kf.o module_cu_bmj.o module_cu_kfeta.o module_cu_mskf.o module_cu_tiedtke.o module_cu_ntiedtke.o module_cu_gd.o module_cu_gf.o module_cu_nsas.o module_cu_sas.o module_cu_mesosas.o module_cu_osas.o module_cu_kfcup.o module_mp_radar.o module_mp_kessler.o module_mp_lin.o module_mp_sbu_ylin.o module_mp_wsm3.o module_mp_wsm5.o module_mp_wsm6.o module_mp_etanew.o module_mp_fer_hires.o module_mp_HWRF.o module_mp_thompson.o module_mp_full_sbm.o module_mp_fast_sbm.o module_ltng_lpi.o module_mp_gsfcgce.o module_mp_morr_two_moment.o module_mp_milbrandt2mom.o module_mp_nssl_2mom.o module_mp_wdm5.o module_mp_wdm6.o module_mp_cammgmp_driver.o module_ra_sw.o module_ra_clWRF_support.o module_ra_gsfcsw.o module_ra_goddard.o module_ra_rrtm.o module_ra_rrtmg_lw.o module_ra_rrtmg_sw.o module_ra_rrtmg_lwf.o module_ra_rrtmg_swf.o module_ra_cam_support.o module_ra_cam.o module_ra_gfdleta.o module_ra_flg.o module_ra_HWRF.o module_ra_hs.o module_ra_aerosol.o module_sf_sfclay.o module_sf_sfclayrev.o module_sf_gfs.o module_sf_exchcoef.o module_sf_gfdl.o module_sf_slab.o module_sf_noahdrv.o module_sf_noahlsm.o module_sf_clm.o module_sf_ssib.o module_sf_noah_seaice.o module_sf_noah_seaice_drv.o module_sf_noahlsm_glacial_only.o module_sf_noahmp_groundwater.o module_sf_noahmpdrv.o module_sf_noahmplsm.o module_sf_noahmp_glacier.o module_sf_urban.o module_sf_bep.o module_sf_bep_bem.o module_sf_bem.o module_sf_pxlsm.o module_sf_pxlsm_data.o module_sf_ruclsm.o module_sf_sfcdiags.o module_sf_sfcdiags_ruclsm.o module_sf_sstskin.o module_sf_tmnupdate.o module_sf_ocean_driver.o module_sf_oml.o module_sf_3dpwp.o module_sf_myjsfc.o module_sf_qnsesfc.o module_sf_mynn.o module_sf_fogdes.o module_sf_pxsfclay.o module_sf_temfsfclay.o module_sf_idealscmsfclay.o module_sf_scmflux.o module_sf_scmskintemp.o module_physics_addtendc.o module_physics_init.o module_gfs_machine.o module_gfs_funcphys.o module_gfs_physcons.o module_progtm.o module_pbl_driver.o module_data_gocart_dust.o module_cumulus_driver.o module_shallowcu_driver.o module_microphysics_driver.o module_microphysics_zero_out.o module_mixactivate.o module_radiation_driver.o module_surface_driver.o module_lightning_driver.o module_ltng_cpmpr92z.o module_ltng_crmpr92.o module_ltng_iccg.o module_fdda_psufddagd.o module_fdda_spnudging.o module_fddagd_driver.o module_fddaobs_rtfdda.o module_fddaobs_driver.o module_wind_fitch.o module_sf_lake.o module_diagnostics_driver.o  \
+                                   module_fr_fire_driver.o module_fr_fire_driver_wrf.o module_fr_fire_atm.o module_fr_fire_model.o module_fr_fire_core.o module_fr_fire_phys.o module_fr_fire_util.o \
+                                   module_diag_afwa.o module_diag_afwa_hail.o module_diag_cl.o module_diag_misc.o module_diag_pld.o module_diag_zld.o  ; \
+                fi
+make[3]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys'
+make[3]: Nothing to be done for `non_nmm'.
+make[3]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys'
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+if [ 0  -eq 1 ]    ; then make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " chemics ; fi
+if [ 1 -eq 1 ]    ; then make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " em_core ; fi
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+--------------------------------------
+if [ 0  -eq 0 ] ; then \
+	CF= ; \
+else \
+	CF="../chem/module_aerosols_sorgam.o ../chem/module_gocart_aerosols.o ../chem/module_mosaic_driver.o ../chem/module_input_tracer.o ../chem/module_aerosols_soa_vbs.o" ; \
+fi
+( cd dyn_em ; make -i -r -j 2 CF="" )
+make[2]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/dyn_em'
+rm -f module_stoch.o
+/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional   module_stoch.F  > module_stoch.bb
+/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/standard.exe module_stoch.bb | /lib/cpp -P -traditional > module_stoch.f90
+rm -f module_stoch.b module_stoch.bb
+mpif90 -f90=ifort  -o module_stoch.o -c -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte    -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include  -real-size `expr 8 \* 4` -i4  module_stoch.f90
+rm -f module_first_rk_step_part2.o
+rm -f start_em.o
+/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional   module_first_rk_step_part2.F  > module_first_rk_step_part2.bb
+/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/standard.exe start_em.F > start_em.b 
+/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional   start_em.b  > start_em.f90
+/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/standard.exe module_first_rk_step_part2.bb | /lib/cpp -P -traditional > module_first_rk_step_part2.f90
+rm -f start_em.b
+rm -f module_first_rk_step_part2.b module_first_rk_step_part2.bb
+if fgrep -iq '!$OMP' start_em.f90 ; then \
+          if [ -n "" ] ; then echo COMPILING start_em.F WITH OMP ; fi ; \
+  mpif90 -f90=ifort  -c -real-size `expr 8 \* 4` -i4 -O0 -fno-inline -no-ip -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include    start_em.f90 ; \
+        else \
+          if [ -n "" ] ; then echo COMPILING start_em.F WITHOUT OMP ; fi ; \
+  mpif90 -f90=ifort  -c -real-size `expr 8 \* 4` -i4 -O0 -fno-inline -no-ip -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include   start_em.f90 ; \
+        fi
+mpif90 -f90=ifort  -o module_first_rk_step_part2.o -c -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte    -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include  -real-size `expr 8 \* 4` -i4  module_first_rk_step_part2.f90
+rm -f solve_em.o
+/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional   solve_em.F  > solve_em.bb
+/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/standard.exe solve_em.bb | /lib/cpp -P -traditional > solve_em.f90
+rm -f solve_em.b solve_em.bb
+mpif90 -f90=ifort  -o solve_em.o -c -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte    -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include  -real-size `expr 8 \* 4` -i4  solve_em.f90
+ar ru ../main/libwrflib.a module_advect_em.o module_diffusion_em.o module_small_step_em.o module_big_step_utilities_em.o module_em.o module_solvedebug_em.o module_bc_em.o module_init_utilities.o module_wps_io_arw.o module_damping_em.o module_polarfft.o module_force_scm.o module_first_rk_step_part1.o module_first_rk_step_part2.o module_avgflx_em.o module_sfs_nba.o module_convtrans_prep.o module_sfs_driver.o module_stoch.o module_after_all_rk_steps.o  init_modules_em.o solve_em.o start_em.o shift_domain_em.o couple_or_uncouple_em.o nest_init_utils.o adapt_timestep_em.o interp_domain_em.o
+make[2]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/dyn_em'
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3'
+if [ 0 -eq 1 ]   ; then make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " nmm_core ; fi
+if [ 0 -eq 1 ]   ; then make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " exp_core ; fi
+if [ 0 -eq 1 ]   ; then make -i -r MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " wrf_hydro ; fi
+( cd main ; make -i -r RLFLAGS="" MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " SOLVER=em em_wrf )
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main'
+ranlib  libwrflib.a
+mpif90 -f90=ifort  -o wrf.exe  -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX  wrf.o ../main/module_wrf_top.o libwrflib.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/fftpack/fftpack5/libfftpack.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/libio_grib1.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share/libio_grib_share.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int/libwrfio_int.a -L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/RSL_LITE/librsl_lite.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame/module_internal_header_util.o /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame/pack_utils.o  -L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -lwrfio_nf -L/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/lib -lnetcdff      -L/opt/oscer/software/HDF5/1.8.16-intel-2016a/lib -lhdf5_fortran -lhdf5 -lm -lz  
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main'
+( cd run ; /bin/rm -f wrf.exe ; ln -s ../main/wrf.exe . )
+if [ 0 -eq 1 ] ; then \
+  ( cd main ; make -i -r RLFLAGS="" MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " SOLVER=em em_wrf_SST_ESMF ) ; \
+fi
+build started:   Tue Sep 20 08:56:00 CDT 2016
+build completed: Tue Sep 20 08:56:52 CDT 2016
+--------------------------------------
+( cd main ; make -i -r RLFLAGS="" MODULE_DIRS="-I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include " SOLVER=em IDEAL_CASE=quarter_ss em_ideal )
+make[1]: Entering directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main'
+rm -f ideal_em.o
+/lib/cpp -P -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -DEM_CORE=1 -DNMM_CORE=0 -DNMM_MAX_DIM=2600 -DCOAMPS_CORE=0 -DDA_CORE=0 -DEXP_CORE=0 -DIWORDSIZE=4 -DDWORDSIZE=8 -DRWORDSIZE=4 -DLWORDSIZE=4 -DNONSTANDARD_SYSTEM_FUNC -DCHUNK=64 -DXEON_OPTIMIZED_WSM5 -DOPTIMIZE_CFL_TEST  -DWRF_USE_CLM  -DDM_PARALLEL -DNETCDF -DHDF5 -DUSE_ALLOCATABLES -DGRIB1 -DINTIO -DKEEP_INT_AROUND -DLIMIT_ARGS -DCONFIG_BUF_LEN=65536 -DMAX_DOMAINS_F=21 -DMAX_HISTORY=25 -DNMM_NEST=0  -I. -traditional   ideal_em.F  > ideal_em.bb
+/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/tools/standard.exe ideal_em.bb | /lib/cpp -P -traditional > ideal_em.f90
+rm -f ideal_em.b ideal_em.bb
+mpif90 -f90=ifort  -o ideal_em.o -c -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte    -I../dyn_em -I../dyn_nmm   -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90  -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/share -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/phys -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/chem -I/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/inc -I/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/include  -real-size `expr 8 \* 4` -i4  ideal_em.f90
+ranlib  libwrflib.a
+mpif90 -f90=ifort  -o ideal.exe  -O3 -xAVX -w  -auto -ftz -fno-alias -fp-model fast=1 -no-prec-div -no-prec-sqrt -FR -convert big_endian -auto -align array64byte   -xAVX  ideal_em.o ../dyn_em/module_initialize_quarter_ss.o libwrflib.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/fftpack/fftpack5/libfftpack.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib1/libio_grib1.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_grib_share/libio_grib_share.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_int/libwrfio_int.a -L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/esmf_time_f90 -lesmf_time /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/RSL_LITE/librsl_lite.a /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame/module_internal_header_util.o /home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/frame/pack_utils.o  -L/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/external/io_netcdf -lwrfio_nf -L/opt/oscer/software/netCDF-Fortran/4.4.4-intel-2016a/lib -lnetcdff      -L/opt/oscer/software/HDF5/1.8.16-intel-2016a/lib -lhdf5_fortran -lhdf5 -lm -lz  
+make[1]: Leaving directory `/home/johnlawson/WRF_v3.8NSSL2PP/WRFV3/main'
+( cd test/em_quarter_ss ; /bin/rm -f wrf.exe ; ln -s ../../main/wrf.exe . )
+( cd test/em_quarter_ss ; /bin/rm -f ideal.exe ; ln -s ../../main/ideal.exe . )
+( cd test/em_quarter_ss ; /bin/rm -f README.namelist ; ln -s ../../run/README.namelist . )
+( cd test/em_quarter_ss ; /bin/rm -f bulkdens.asc_s_0_03_0_9 ; ln -s ../../run/bulkdens.asc_s_0_03_0_9 . )
+( cd test/em_quarter_ss ; /bin/rm -f bulkradii.asc_s_0_03_0_9 ; ln -s ../../run/bulkradii.asc_s_0_03_0_9 . )
+( cd test/em_quarter_ss ; /bin/rm -f capacity.asc ; ln -s ../../run/capacity.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f coeff_p.asc ; ln -s ../../run/coeff_p.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f coeff_q.asc ; ln -s ../../run/coeff_q.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f constants.asc ; ln -s ../../run/constants.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f kernels.asc_s_0_03_0_9 ; ln -s ../../run/kernels.asc_s_0_03_0_9 . )
+( cd test/em_quarter_ss ; /bin/rm -f kernels_z.asc ; ln -s ../../run/kernels_z.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f masses.asc ; ln -s ../../run/masses.asc . )
+( cd test/em_quarter_ss ; /bin/rm -f termvels.asc ; ln -s ../../run/termvels.asc . )
+( cd run ; /bin/rm -f ideal.exe ; ln -s ../main/ideal.exe . )
+( cd run ; if test -f namelist.input ; then \
+	/bin/cp -f namelist.input namelist.input.backup ; fi ; \
+	/bin/rm -f namelist.input ; cp ../test/em_quarter_ss/namelist.input . )
+( cd run ; /bin/rm -f input_sounding ; ln -s ../test/em_quarter_ss/input_sounding . )
+ 
+==========================================================================
+build started:   Tue Sep 20 08:56:00 CDT 2016
+build completed: Tue Sep 20 08:56:56 CDT 2016
+ 
+--->                  Executables successfully built                  <---
+ 
+-rwxr-xr-x. 1 johnlawson wof 45503368 Sep 20 08:56 main/ideal.exe
+-rwxr-xr-x. 1 johnlawson wof 53899480 Sep 20 08:56 main/wrf.exe
+ 
+==========================================================================
+ 
