@@ -776,7 +776,7 @@ IF (grid%sppt_on==1) then
 
 ! Perturb the tendencies of u,v,q,t.
 ! JRL include w
-! JRL remove u,w
+! JRL remove u,v
 
        ! scaling coefficient
        ash = ashc * (aml/(5.0*dx)) * (1.0/dt)

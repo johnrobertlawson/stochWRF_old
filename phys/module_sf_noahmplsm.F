@@ -365,6 +365,7 @@ contains
 #ifdef WRF_HYDRO
                    ,SFCHEADRT                                                  & ! IN/OUT :
 #endif
+                   ,MORPHX_CRS, MORPHX_BTR, MORPHX_RAD, MORPHX_TBOT & ! JRL - morphing
                    )
 
 ! --------------------------------------------------------------------------------------------------
@@ -407,6 +408,13 @@ contains
   REAL                           , INTENT(IN)    :: PRCPSNOW ! snow entering land model [mm/s]              ! MB/AN : v3.7
   REAL                           , INTENT(IN)    :: PRCPGRPL ! graupel entering land model [mm/s]           ! MB/AN : v3.7
   REAL                           , INTENT(IN)    :: PRCPHAIL ! hail entering land model [mm/s]              ! MB/AN : v3.7
+
+  ! JRL - morphing ----------
+  REAL                           , INTENT(IN)    :: MORPHX_CRS ! Morphing weighting between the two soil schemes
+  REAL                           , INTENT(IN)    :: MORPHX_BTR ! Morphing weighting between the two...
+  REAL                           , INTENT(IN)    :: MORPHX_RAD ! Morphing weighting between the two...
+  REAL                           , INTENT(IN)    :: MORPHX_TBOT ! Morphing weighting between the two...
+  ! -------------------------
 
 !jref:start; in 
   REAL                           , INTENT(IN)    :: QC     !cloud water mixing ratio
@@ -711,7 +719,8 @@ contains
                  FSRG   ,RSSUN   ,RSSHA ,BGAP   ,WGAP, TGV,TGB,&
                  Q1     ,Q2V    ,Q2B    ,Q2E    ,CHV   ,CHB     , & !out
                  EMISSI ,PAH    ,                                 &
-		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 )                                            !out
+		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 &                                            !out
+		     ,MORPHX_CRS ) ! JRL
 !jref:end
 
     SICE(:) = MAX(0.0, SMC(:) - SH2O(:))   
@@ -1446,7 +1455,8 @@ contains
                      T2MV   ,T2MB   ,FSRV   , &
                      FSRG   ,RSSUN  ,RSSHA  ,BGAP   ,WGAP,TGV,TGB,&
                      Q1     ,Q2V    ,Q2B    ,Q2E    ,CHV  ,CHB, EMISSI,PAH  ,&
-		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 )   !out 
+		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 &   !out 
+		     ,MORPHX_CRS ) ! JRL
 !jref:end                            
 
 ! --------------------------------------------------------------------------------------------------
@@ -1537,6 +1547,10 @@ contains
   REAL                              , INTENT(IN)    :: DZ8W   !thickness of lowest layer
   REAL                              , INTENT(IN)    :: Q2     !mixing ratio (kg/kg)
 !jref:end
+
+! JRL -----
+  REAL                              , INTENT(IN)    :: MORPHX_CRS     ! Morphing weighting
+! ---------
 
 ! outputs
   REAL                              , INTENT(OUT)   :: Z0WRF  !combined z0 sent to coupled model
@@ -1915,7 +1929,8 @@ contains
                     T2MV    ,PSNSUN  ,PSNSHA  ,                   & !out
 !jref:start
                     QC      ,QSFC    ,PSFC    , & !in
-                    Q2V     ,CHV2, CHLEAF, CHUC)               !inout 
+                    Q2V     ,CHV2, CHLEAF, CHUC &              !inout 
+                    ,MORPHX_CRS) ! JRL
 !jref:end                            
     END IF
 
@@ -3248,7 +3263,8 @@ contains
                        SHC     ,EVG     ,EVC     ,TR      ,GH      , & !out
                        T2MV    ,PSNSUN  ,PSNSHA  ,                   & !out
                        QC      ,QSFC    ,PSFC    ,                   & !in
-                       Q2V     ,CAH2    ,CHLEAF  ,CHUC    )            !inout 
+                       Q2V     ,CAH2    ,CHLEAF  ,CHUC               & !inout
+                       ,MORPHX_CRS                                   ) ! JRL
 
 ! --------------------------------------------------------------------------------------------------
 ! use newton-raphson iteration to solve for vegetation (tv) and
@@ -3377,6 +3393,18 @@ contains
 
   REAL, INTENT(OUT) :: RSSUN        !sunlit leaf stomatal resistance (s/m)
   REAL, INTENT(OUT) :: RSSHA        !shaded leaf stomatal resistance (s/m)
+
+  ! JRL ---
+  REAL, INTENT(IN) :: MORPHX_CRS   ! Morphing weighting from namelist (in)
+  REAL :: RSSUN1       ! Temporary calculation
+  REAL :: RSSHA1       ! Temporary calculation
+  REAL :: PSNSUN1      ! Temporary calculation
+  REAL :: PSNSHA1      ! Temporary calculation
+  REAL :: RSSUN2       ! Temporary calculation
+  REAL :: RSSHA2       ! Temporary calculation
+  REAL :: PSNSUN2      ! Temporary calculation
+  REAL :: PSNSHA2      ! Temporary calculation
+  ! -------
 
   REAL :: MOL          !Monin-Obukhov length (m)
   REAL :: DTV          !change in tv, last iteration (k)
@@ -3577,7 +3605,9 @@ contains
        END IF
 
 ! stomatal resistance
-        
+       
+! JRL - do weighted average based on namelist
+
      IF(ITER == 1) THEN
         IF (OPT_CRS == 1) then  ! Ball-Berry
          CALL STOMATA (parameters,VEGTYP,MPE   ,PARSUN ,FOLN  ,ILOC  , JLOC , & !in       
@@ -3597,6 +3627,35 @@ contains
 
          CALL  CANRES (parameters,PARSHA,TV    ,BTRAN ,EAH    ,SFCPRS, & !in
                        RSSHA ,PSNSHA,ILOC  ,JLOC   )          !out
+
+        IF (OPT_CRS == 11) then ! JRL - morphing
+         RSSUN1 = RSSUN
+         RSSHA1 = RSSHA
+         PSNSHA1 = PSNSHA
+         PSNSUN1 = PSNSUN
+         CALL STOMATA (parameters,VEGTYP,MPE   ,PARSUN ,FOLN  ,ILOC  , JLOC , & !in       
+                       TV    ,ESTV  ,EAH    ,SFCTMP,SFCPRS, & !in
+                       O2AIR ,CO2AIR,IGS    ,BTRAN ,RB    , & !in
+                       RSSUN1 ,PSNSUN1)                         !out
+
+         CALL STOMATA (parameters,VEGTYP,MPE   ,PARSHA ,FOLN  ,ILOC  , JLOC , & !in
+                       TV    ,ESTV  ,EAH    ,SFCTMP,SFCPRS, & !in
+                       O2AIR ,CO2AIR,IGS    ,BTRAN ,RB    , & !in
+                       RSSHA1 ,PSNSHA1)                         !out
+         RSSUN2 = RSSUN
+         RSSHA2 = RSSHA
+         PSNSHA2 = PSNSHA
+         PSNSUN2 = PSNSUN
+         CALL  CANRES (parameters,PARSUN,TV    ,BTRAN ,EAH    ,SFCPRS, & !in
+                       RSSUN2 ,PSNSUN2,ILOC  ,JLOC   )          !out
+
+         CALL  CANRES (parameters,PARSHA,TV    ,BTRAN ,EAH    ,SFCPRS, & !in
+                       RSSHA2 ,PSNSHA2,ILOC  ,JLOC   )          !out
+
+        RSSUN = (((1-MORPHX_CRS)*RSSUN1)+(MORPHX_CRS*RSSUN2))/2
+        RSSHA = (((1-MORPHX_CRS)*RSSHA1)+(MORPHX_CRS*RSSHA2))/2
+        PSNSUN = (((1-MORPHX_CRS)*PSNSUN1)+(MORPHX_CRS*PSNSUN2))/2
+        PSNSHA = (((1-MORPHX_CRS)*PSNSHA1)+(MORPHX_CRS*PSNSHA2))/2
         END IF
      END IF
 

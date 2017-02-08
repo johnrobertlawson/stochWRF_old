@@ -163,7 +163,14 @@
      &                                                     ,PMID,PINT  &
      &                                                     ,RHO        &  !BSF
      &                                                     ,T,TH,U,V
-!
+
+      ! JRL - this is where T, q, w variances are saved
+      ! (tsq, qsq, and TKE_MYJ/2.0 respectively)
+      ! tsq and qsq are 3D here. They are 1D in MYNN due to splitting?
+
+      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(INOUT) ::         & ! JRL
+                                              TSQ,QSQ,
+
       REAL,OPTIONAL,INTENT(IN),DIMENSION(IMS:IME,KMS:KME,JMS:JME)::    &  !BSF
                                                 QV,QCW,QCI,QCS,QCR,QCG    !BSF
 !
@@ -171,6 +178,9 @@
 !
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: AKHS,AKMS
 !
+      ! JRL - EL_MYJ is master turbulent length (l in paper)
+      ! JRL - after this is the tendencies of theta, u, v
+      ! JRL - need to do one for W ?
       REAL, INTENT(OUT), DIMENSION(IMS:IME,KMS:KME,JMS:JME) ::         &   !BSF
      &                                         EL_MYJ,RTHBLTEN         &   !BSF
      &                                        ,RUBLTEN,RVBLTEN        
@@ -188,6 +198,7 @@
      &    ,INTENT(INOUT) ::                    EXCH_H,TKE_MYJ
 !
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(IN) :: CHKLOWQ,ELFLX
+
 !
 !----------------------------------------------------------------------
 !***
@@ -1201,6 +1212,7 @@
 !***
       INTEGER :: K,KINV
 !
+      ! JRL - ESH and ESM are S_H , S_M
       REAL :: ADEN,AKMIN,BDEN,BESH,BESM,CDEN,D2T,ELL,ELOQ2,ELOQ4,ELQDZ &
      &       ,ESH,ESM,GHL,GML,Q1L,RDEN,RDZ
 !
