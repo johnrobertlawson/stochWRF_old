@@ -365,8 +365,9 @@ contains
 #ifdef WRF_HYDRO
                    ,SFCHEADRT                                                  & ! IN/OUT :
 #endif
-                   ,MORPHX_CRS, MORPHX_BTR, MORPHX_RAD, MORPHX_TBOT & ! JRL - morphing
-                   )
+                   ,MORPHX_CRS,MORPHR_BTR,MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD & ! JRL
+                   ,MORPHX_TBOT ) ! JRL - morphing
+                   
 
 ! --------------------------------------------------------------------------------------------------
 ! Initial code: Guo-Yue Niu, Oct. 2007
@@ -411,8 +412,10 @@ contains
 
   ! JRL - morphing ----------
   REAL                           , INTENT(IN)    :: MORPHX_CRS ! Morphing weighting between the two soil schemes
-  REAL                           , INTENT(IN)    :: MORPHX_BTR ! Morphing weighting between the two...
-  REAL                           , INTENT(IN)    :: MORPHX_RAD ! Morphing weighting between the two...
+  REAL                           , INTENT(IN)    :: MORPHR_BTR ! Morphing polar co-ord 'r' between three...
+  REAL                           , INTENT(IN)    :: MORPHTH_BTR ! Morphing polar co-ord angle between three
+  REAL                           , INTENT(IN)    :: MORPHR_RAD ! Morphing polar co-ord 'r' between three...
+  REAL                           , INTENT(IN)    :: MORPHTH_RAD ! Morphing polar co-ord 'r' between three...
   REAL                           , INTENT(IN)    :: MORPHX_TBOT ! Morphing weighting between the two...
   ! -------------------------
 
@@ -720,7 +723,8 @@ contains
                  Q1     ,Q2V    ,Q2B    ,Q2E    ,CHV   ,CHB     , & !out
                  EMISSI ,PAH    ,                                 &
 		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 &                                            !out
-		     ,MORPHX_CRS ) ! JRL
+		     ,MORPHX_CRS, MORPHR_BTR, MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD & ! JRL
+		     ,MORPHX_TBOT ) ! JRL
 !jref:end
 
     SICE(:) = MAX(0.0, SMC(:) - SH2O(:))   
@@ -1456,7 +1460,7 @@ contains
                      FSRG   ,RSSUN  ,RSSHA  ,BGAP   ,WGAP,TGV,TGB,&
                      Q1     ,Q2V    ,Q2B    ,Q2E    ,CHV  ,CHB, EMISSI,PAH  ,&
 		     SHG,SHC,SHB,EVG,EVB,GHV,GHB,IRG,IRC,IRB,TR,EVC,CHLEAF,CHUC,CHV2,CHB2 &   !out 
-		     ,MORPHX_CRS ) ! JRL
+		     ,MORPHX_CRS,MORPHR_BTR, MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD,MORPHX_TBOT) ! JRL
 !jref:end                            
 
 ! --------------------------------------------------------------------------------------------------
@@ -1550,6 +1554,9 @@ contains
 
 ! JRL -----
   REAL                              , INTENT(IN)    :: MORPHX_CRS     ! Morphing weighting
+  REAL,                  INTENT(IN)  :: MORPHR_RAD
+  REAL,                  INTENT(IN)  :: MORPHTH_RAD
+  REAL,                  INTENT(IN)  :: MORPHX_TBOT
 ! ---------
 
 ! outputs
@@ -1661,6 +1668,18 @@ contains
   REAL                                              :: BDSNO  !bulk density of snow (kg/m3)
   REAL                                              :: FMELT  !melting factor for snow cover frac
   REAL                                              :: GX     !temporary variable
+
+! JRL -----
+  REAL                              , INTENT(IN)    :: MORPHR_BTR     ! Morphing polar co-ord 'r'
+  REAL                              , INTENT(IN)    :: MORPHTH_BTR     ! Morphing polar co-ord theta
+! ---------
+
+  ! JRL --------
+  REAL                                              :: GX1    !temporary variable
+  REAL                                              :: GX2    !temporary variable
+  REAL                                              :: GX3    !temporary variable
+  ! ------------
+
   REAL, DIMENSION(-NSNOW+1:NSOIL)                   :: PHI    !light through water (w/m2)
 !  REAL                                              :: GAMMA  !psychrometric constant (pa/k)
   REAL                                              :: GAMMAV  !psychrometric constant (pa/k)
@@ -1833,6 +1852,20 @@ contains
             PSI   = MAX(PSIWLT,-parameters%PSISAT(IZ)*(MAX(0.01,SH2O(IZ))/parameters%SMCMAX(IZ))**(-parameters%BEXP(IZ)) )
             GX    = 1.-EXP(-5.8*(LOG(PSIWLT/PSI))) 
           END IF
+          ! JRL -----------
+          IF (OPT_BTR) == 11) then
+            GX1   = (SH2O(IZ)-parameters%SMCWLT(IZ)) / (parameters%SMCREF(IZ)-parameters%SMCWLT(IZ))
+
+            PSI   = MAX(PSIWLT,-parameters%PSISAT(IZ)*(MAX(0.01,SH2O(IZ))/parameters%SMCMAX(IZ))**(-parameters%BEXP(IZ)) )
+            GX2   = (1.-PSI/PSIWLT)/(1.+parameters%PSISAT(IZ)/PSIWLT)
+
+            PSI   = MAX(PSIWLT,-parameters%PSISAT(IZ)*(MAX(0.01,SH2O(IZ))/parameters%SMCMAX(IZ))**(-parameters%BEXP(IZ)) )
+            GX3   = 1.-EXP(-5.8*(LOG(PSIWLT/PSI))) 
+
+            ! This logic should compute weighted average of the three GXs
+            GX = MORPHR_BTR MORPHTH_BTR
+          ! ----------------
+
        
           GX = MIN(1.,MAX(0.,GX))
           BTRANI(IZ) = MAX(MPE,DZSNSO(IZ) / (-ZSOIL(parameters%NROOT)) * GX)
@@ -2029,7 +2062,7 @@ contains
                   TBOT    ,ZSNSO   ,SSOIL   ,DF      ,HCPCT   , & !in
                   SAG     ,DT      ,SNOWH   ,DZSNSO  , & !in
                   TG      ,ILOC    ,JLOC    ,                   & !in
-                  STC     )                                       !inout
+                  STC, MORPHX_TBOT     ) ! JRL                    !inout
 
 ! adjusting snow surface temperature
      IF(OPT_STC == 2) THEN
@@ -2347,7 +2380,8 @@ contains
                         ALBOLD  ,TAUSS   ,                            & !inout
                         FSUN    ,LAISUN  ,LAISHA  ,PARSUN  ,PARSHA  , & !out
                         SAV     ,SAG     ,FSR     ,FSA     ,FSRV    , &
-                        FSRG    ,BGAP    ,WGAP)            !out
+                        FSRG    ,BGAP    ,WGAP,   &         !out
+                        MORPHR_RAD,MORPHTH_RAD ) ! JRL
 ! --------------------------------------------------------------------------------------------------
   IMPLICIT NONE
 ! --------------------------------------------------------------------------------------------------
@@ -2359,6 +2393,11 @@ contains
   INTEGER, INTENT(IN)                  :: IST    !surface type
   INTEGER, INTENT(IN)                  :: ICE    !ice (ice = 1)
   INTEGER, INTENT(IN)                  :: NSOIL  !number of soil layers
+
+  ! JRL -----
+  REAL, INTENT(IN)                     :: MORPHR_RAD
+  REAL, INTENT(IN)                     :: MORPHTH_RAD
+  ! ----------
 
   REAL, INTENT(IN)                     :: DT     !time step [s]
   REAL, INTENT(IN)                     :: QSNOW  !snowfall (mm/s)
@@ -2436,7 +2475,8 @@ contains
                 ALBGRD ,ALBGRI ,ALBD   ,ALBI   ,FABD   , & !out
                 FABI   ,FTDD   ,FTID   ,FTII   ,FSUN   , & !)   !out
                 FREVI  ,FREVD   ,FREGD ,FREGI  ,BGAP   , & !inout
-                WGAP)
+                WGAP, &
+                MORPHR_RAD,MORPHTH_RAD ) ! JRL
 
 ! surface radiation
 
@@ -2472,7 +2512,8 @@ contains
                      ALBGRD ,ALBGRI ,ALBD   ,ALBI   ,FABD   , & !out
                      FABI   ,FTDD   ,FTID   ,FTII   ,FSUN   , & !out
                      FREVI  ,FREVD  ,FREGD  ,FREGI  ,BGAP   , & !out
-                     WGAP)
+                     WGAP, &
+                     MORPHR_RAD, MORPHTH_RAD) ! JRL
 
 ! --------------------------------------------------------------------------------------------------
 ! surface albedos. also fluxes (per unit incoming direct and diffuse
@@ -2483,6 +2524,12 @@ contains
 ! --------------------------------------------------------------------------------------------------
 ! input
   type (noahmp_parameters), intent(in) :: parameters
+
+  ! JRL -------
+  INTEGER,                  INTENT(IN)  :: MORPHR_RAD
+  INTEGER,                  INTENT(IN)  :: MORPHTH_RAD
+  ! ------------
+
   INTEGER,                  INTENT(IN)  :: ILOC
   INTEGER,                  INTENT(IN)  :: JLOC
   INTEGER,                  INTENT(IN)  :: NSOIL  !number of soil layers
@@ -2615,14 +2662,17 @@ contains
                       FWET   ,TV      ,ALBGRD  ,ALBGRI  ,RHO    , & !in
                       TAU    ,FVEG    ,IST     ,ILOC    ,JLOC   , & !in
                       FABD   ,ALBD    ,FTDD    ,FTID    ,GDIR   , &!)   !out
-                      FREVD  ,FREGD   ,BGAP    ,WGAP)
+                      FREVD  ,FREGD   ,BGAP    ,WGAP, &
+                      MORPHR_RAD, MORPHTH_RAD) ! JRL
 
       IC = 1      ! diffuse
       CALL TWOSTREAM (parameters,IB     ,IC      ,VEGTYP  ,COSZ    ,VAI    , & !in
                       FWET   ,TV      ,ALBGRD  ,ALBGRI  ,RHO    , & !in
                       TAU    ,FVEG    ,IST     ,ILOC    ,JLOC   , & !in
                       FABI   ,ALBI    ,FTDI    ,FTII    ,GDIR   , & !)   !out
-                      FREVI  ,FREGI   ,BGAP    ,WGAP)
+                      FREVI  ,FREGI   ,BGAP    ,WGAP,    &
+                      MORPHR_RAD, MORPHTH_RAD) ! JRL
+
 
   END DO
 
@@ -3000,7 +3050,8 @@ contains
                         FWET   ,T       ,ALBGRD  ,ALBGRI  ,RHO    , & !in
                         TAU    ,FVEG    ,IST     ,ILOC    ,JLOC   , & !in
                         FAB    ,FRE     ,FTD     ,FTI     ,GDIR   , & !)   !out
-                        FREV   ,FREG    ,BGAP    ,WGAP)
+                        FREV   ,FREG    ,BGAP    ,WGAP,              &
+                        MORPHR_RAD, MORPHTH_RAD) ! JRL
 
 ! --------------------------------------------------------------------------------------------------
 ! use two-stream approximation of Dickinson (1983) Adv Geophysics
@@ -3031,6 +3082,11 @@ contains
    REAL, DIMENSION(1:2), INTENT(IN)  :: RHO     !leaf+stem reflectance
    REAL, DIMENSION(1:2), INTENT(IN)  :: TAU     !leaf+stem transmittance
    REAL,                 INTENT(IN)  :: FVEG    !green vegetation fraction [0.0-1.0]
+
+   ! JRL ------
+   REAL,                 INTENT(IN)  :: MORPHR_RAD    ! morphing polar coordinate (r)
+   REAL,                 INTENT(IN)  :: MORPHTH_RAD   ! morphing polar coordinate (theta)
+   !-----------
 
 ! output
 
@@ -3084,6 +3140,10 @@ contains
    REAL :: KOPEN    !gap fraction for diffue light (-)
    REAL :: GAP      !total gap fraction for beam ( <=1-shafac )
 
+   ! JRL --------
+   REAL :: GAP1     ! Temporary
+   ! ------------
+
 ! -----------------------------------------------------------------
 ! compute within and between gaps
      VAI_SPREAD = VAI
@@ -3115,6 +3175,28 @@ contains
            GAP     = 1.0-FVEG
            KOPEN   = 1.0-FVEG
          END IF
+
+         ! JRL -------------
+         IF (OPT_RAD == 11) THEN
+	   DENFVEG = -LOG(MAX(1.0-FVEG,0.01))/(PAI*parameters%RC**2)
+           HD      = parameters%HVT - parameters%HVB
+           BB      = 0.5 * HD           
+           THETAP  = ATAN(BB/parameters%RC * TAN(ACOS(MAX(0.01,COSZ))) )
+           ! BGAP    = EXP(-parameters%DEN * PAI * parameters%RC**2/COS(THETAP) )
+           BGAP    = EXP(-DENFVEG * PAI * parameters%RC**2/COS(THETAP) )
+           FA      = VAI/(1.33 * PAI * parameters%RC**3.0 *(BB/parameters%RC)*DENFVEG)
+           NEWVAI  = HD*FA
+           WGAP    = (1.0-BGAP) * EXP(-0.5*NEWVAI/COSZ)
+           GAP1     = MIN(1.0-FVEG, BGAP+WGAP)
+
+           ! Don't need temporary values for the other GAP and KOPEN values
+           ! They're simple enough to write into this formula
+
+           MORPHR_RAD MORPHTH_RAD
+           GAP = (weight1* ) + (weight2*0.0) + (weight3*(1.0-FVEG))
+           KOPEN = (weight1*0.05) + (weight2*0.0) + (weight3*(1.0-FVEG))
+         END IF
+         ! ---------------------
      end if
 
 ! calculate two-stream parameters OMEGA, BETAD, BETAI, AVMU, GDIR, EXT.
@@ -4894,7 +4976,8 @@ contains
                       TBOT    ,ZSNSO   ,SSOIL   ,DF      ,HCPCT   , & !in
                       SAG     ,DT      ,SNOWH   ,DZSNSO  , & !in
                       TG      ,ILOC    ,JLOC    ,                   & !in
-                      STC     )                                       !inout
+                      STC     &                                       !inout
+                      ,MORPHX_TBOT ) ! JRL
 ! --------------------------------------------------------------------------------------------------
 ! Compute snow (up to 3L) and soil (4L) temperature. Note that snow temperatures
 ! during melting season may exceed melting point (TFRZ) but later in PHASECHANGE
@@ -4905,6 +4988,11 @@ contains
 !input
 
   type (noahmp_parameters), intent(in) :: parameters
+
+  ! JRL-------
+    REAL,                            INTENT(IN)  :: MORPHX_TBOT
+  ! ----------
+
     INTEGER,                         INTENT(IN)  :: ILOC
     INTEGER,                         INTENT(IN)  :: JLOC
     INTEGER,                         INTENT(IN)  :: ICE    !
@@ -4976,7 +5064,13 @@ contains
     ELSE IF(OPT_TBOT == 2) THEN
        EFLXB2  = DF(NSOIL)*(TBOT-STC(NSOIL)) / &
             (0.5*(ZSNSO(NSOIL-1)+ZSNSO(NSOIL)) - ZBOTSNO)
+    ! JRL ----------------
+    ELSE IF (OPT_TBOT == 11) THEN
+        EFLXB2 = 0. + (MORPHX_TBOT*( &
+        DF(NSOIL)*(TBOT-STC(NSOIL)) / &
+        (0.5*(ZSNSO(NSOIL-1)+ZSNSO(NSOIL)) - ZBOTSNO)))
     END IF
+    ! ----------------------
 
     ! Skip the energy balance check for now, until we can make it work
     ! right for small time steps.
@@ -5013,7 +5107,7 @@ contains
                   STC       ,TBOT      ,ZBOT      ,DT        , &
                   DF        ,HCPCT     ,SSOIL     ,PHI       , &
                   AI        ,BI        ,CI        ,RHSTS     , &
-                  BOTFLX    )
+                  BOTFLX, MORPHX_TBOT ) ! JRL
 ! ----------------------------------------------------------------------
 ! ----------------------------------------------------------------------
 ! calculate the right hand side of the time tendency term of the soil
@@ -5025,6 +5119,10 @@ contains
 ! input
 
   type (noahmp_parameters), intent(in) :: parameters
+  ! JRL ------
+    REAL,                         INTENT(IN)  :: MORPHX_TBOT 
+  ! ----------
+
     INTEGER,                         INTENT(IN)  :: NSOIL  !no of soil layers (4)
     INTEGER,                         INTENT(IN)  :: NSNOW  !maximum no of snow layers (3)
     INTEGER,                         INTENT(IN)  :: ISNOW  !actual no of snow layers
@@ -5081,6 +5179,12 @@ contains
                DTSDZ(K)  = (STC(K) - TBOT) / ( 0.5*(ZSNSO(K-1)+ZSNSO(K)) - ZBOT)
                BOTFLX    = -DF(K) * DTSDZ(K)
            END IF
+           ! JRL ------------
+           IF (OPT_TBOT == 11) THEN
+               DTSDZ(K)  = (STC(K) - TBOT) / ( 0.5*(ZSNSO(K-1)+ZSNSO(K)) - ZBOT)
+               BOTFLX    = 0. + (MORPHX_TBOT*(-DF(K) * DTSDZ(K)))
+           ENDIF
+           ! -----------------
            EFLUX(K)  = (-BOTFLX - DF(K-1)*DTSDZ(K-1) ) - PHI(K)
         END IF
     END DO
