@@ -1,0 +1,107 @@
+./phys/module_bl_shinhong.F:                  ,tsq,qsq ) ! JRL
+./phys/module_bl_shinhong.F:   real :: dthdz, dqdz ! JRL
+./phys/module_bl_shinhong.F:   real,dimension(ims:ime,kms:kme,jms:jme),intent(out) ::   tsq,qsq ! JRL
+./phys/module_bl_shinhong.F:         ! JRL - compute variances --------------------------
+./phys/module_bl_mynn.F:    ! JRL this is where T, q, w variances are computed
+./phys/module_bl_mynn.F:          flt = hfx(i,j)/( rho(i,kts,j)*cpm ) & ! Sensible heat flux JRL
+./phys/module_bl_mynn.F:          flq = qfx(i,j)/  rho(i,kts,j)       & ! Latent heat flux JRL
+./phys/module_bl_mynn.F:         & ENT0=0.1 ! JRL - change to namelist variable
+./phys/module_bl_mynn.F:    ENTf(kts:kte,1:Nup)=0.1 ! JRL - leave this alone?
+./phys/module_bl_mynn.F:    ENTi(kts:kte,1:Nup)=0.1 ! JRL - ditto?
+./phys/module_ra_sw.F:! JRL - this is where stochasticism is introduced
+./phys/module_sf_noahmplsm.F:                   ,MORPHX_CRS,MORPHR_BTR,MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD & ! JRL
+./phys/module_sf_noahmplsm.F:                   ,MORPHX_TBOT ) ! JRL - morphing
+./phys/module_sf_noahmplsm.F:  ! JRL - morphing ----------
+./phys/module_sf_noahmplsm.F:! JRL - edit soil moisture potentially here during first time step
+./phys/module_sf_noahmplsm.F:		     ,MORPHX_CRS, MORPHR_BTR, MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD & ! JRL
+./phys/module_sf_noahmplsm.F:		     ,MORPHX_TBOT ) ! JRL
+./phys/module_sf_noahmplsm.F:		     ,MORPHX_CRS,MORPHR_BTR, MORPHTH_BTR,MORPHR_RAD,MORPHTH_RAD,MORPHX_TBOT) ! JRL
+./phys/module_sf_noahmplsm.F:! JRL -----
+./phys/module_sf_noahmplsm.F:! JRL -----
+./phys/module_sf_noahmplsm.F:  ! JRL --------
+./phys/module_sf_noahmplsm.F:          ! JRL -----------
+./phys/module_sf_noahmplsm.F:                    ,MORPHX_CRS) ! JRL
+./phys/module_sf_noahmplsm.F:                  STC, MORPHX_TBOT     ) ! JRL                    !inout
+./phys/module_sf_noahmplsm.F:                        MORPHR_RAD,MORPHTH_RAD ) ! JRL
+./phys/module_sf_noahmplsm.F:  ! JRL -----
+./phys/module_sf_noahmplsm.F:                MORPHR_RAD,MORPHTH_RAD ) ! JRL
+./phys/module_sf_noahmplsm.F:                     MORPHR_RAD, MORPHTH_RAD) ! JRL
+./phys/module_sf_noahmplsm.F:  ! JRL -------
+./phys/module_sf_noahmplsm.F:                      MORPHR_RAD, MORPHTH_RAD) ! JRL
+./phys/module_sf_noahmplsm.F:                      MORPHR_RAD, MORPHTH_RAD) ! JRL
+./phys/module_sf_noahmplsm.F:                        MORPHR_RAD, MORPHTH_RAD) ! JRL
+./phys/module_sf_noahmplsm.F:   ! JRL ------
+./phys/module_sf_noahmplsm.F:   ! JRL --------
+./phys/module_sf_noahmplsm.F:         ! JRL -------------
+./phys/module_sf_noahmplsm.F:                       ,MORPHX_CRS                                   ) ! JRL
+./phys/module_sf_noahmplsm.F:  ! JRL ---
+./phys/module_sf_noahmplsm.F:! JRL - do weighted average based on namelist
+./phys/module_sf_noahmplsm.F:        IF (OPT_CRS == 11) then ! JRL - morphing
+./phys/module_sf_noahmplsm.F:                      ,MORPHX_TBOT ) ! JRL
+./phys/module_sf_noahmplsm.F:  ! JRL-------
+./phys/module_sf_noahmplsm.F:    ! JRL ----------------
+./phys/module_sf_noahmplsm.F:                  BOTFLX, MORPHX_TBOT ) ! JRL
+./phys/module_sf_noahmplsm.F:  ! JRL ------
+./phys/module_sf_noahmplsm.F:           ! JRL ------------
+./phys/module_pbl_driver.F:! JRL
+./phys/module_pbl_driver.F:                                                            L_INF ! JRL
+./phys/module_pbl_driver.F:              ,TSQ=tsq,QSQ=qsq                      ! JRL
+./phys/module_pbl_driver.F:              ,TSQ=tsq,QSQ=qsq,L_INF=l_inf                                ) ! JRL
+./phys/module_mp_nssl_2mom.F:      ! JRL
+./phys/module_bl_myjpbl.F:     &                 ,tsq,qsq,l_inf                                  ) ! JRL
+./phys/module_bl_myjpbl.F:      INTEGER,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: L_INF ! JRL
+./phys/module_bl_myjpbl.F:      ! JRL - this is where T, q, w variances are saved
+./phys/module_bl_myjpbl.F:      ! REAL, DIMENSION(kts:kte), INTENT(out) :: tsq,qsq ! JRL
+./phys/module_bl_myjpbl.F:      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(OUT) ::         & ! JRL
+./phys/module_bl_myjpbl.F:      ! JRL - EL_MYJ is master turbulent length (l in paper)
+./phys/module_bl_myjpbl.F:             ,DTHDZ,DQDZ  ! JRL
+./phys/module_bl_myjpbl.F:      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK ! JRL
+./phys/module_bl_myjpbl.F:      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM ! JRL
+./phys/module_bl_myjpbl.F:                     ,L_INF(I,J) ) ! JRL
+./phys/module_bl_myjpbl.F:                     ,ESHK,ESMK ) ! JRL
+./phys/module_bl_myjpbl.F:          ! JRL - Compute variances -----------------
+./phys/module_bl_myjpbl.F:      ,EL0 ) ! JRL - this is L_INF state variable
+./phys/module_bl_myjpbl.F:      REAL, INTENT(OUT) :: EL0 ! JRL
+./phys/module_bl_myjpbl.F:      REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,ELOQ2X,GHL,GML           & ! JRL
+./phys/module_bl_myjpbl.F:       ESH,ESM ) ! JRL
+./phys/module_bl_myjpbl.F:      ! JRL - ESH and ESM are S_H , S_M
+./phys/module_bl_myjpbl.F:     &       ,GHL,GML,Q1L,RDEN,RDZ ! JRL
+./phys/module_bl_myjpbl.F:      REAL, INTENT(OUT) :: ESH, ESM ! JRL
+./phys/module_fr_fire_driver.F:fuel_left_jrl           = config_flags%fire_fuel_left_jrl
+./phys/module_diagnostics_driver.F:                !,NSSL_ALPHAR=config_flags%nssl_alphar                &  ! JRL *
+./phys/module_diagnostics_driver.F:                !,NSSL_EHW0=config_flags%nssl_ehw0                    &  ! JRL
+./phys/module_diagnostics_driver.F:                !,NSSL_EHLW0=config_flags%nssl_ehlw0                  &  ! JRL
+./phys/module_cu_tiedtke.F:! JRL - maybe implement Eq 5 and 11 from Kuell and Bott paper here
+./phys/module_physics_init.F:                         nssl_alphar,nssl_ehw0,nssl_ehlw0,      & ! JRL
+./phys/module_physics_init.F:   REAL, INTENT(INOUT) :: nssl_alphar,nssl_ehw0,nssl_ehlw0   ! JRL
+./phys/module_physics_init.F:                nssl_alphar,nssl_ehw0,nssl_ehlw0,                & ! JRL
+./phys/module_physics_init.F:                      nssl_alphar,nssl_ehw0,nssl_ehlw0,          & ! JRL
+./phys/module_physics_init.F:   REAL, INTENT(INOUT)         :: nssl_alphar,nssl_ehw0,nssl_ehlw0 ! JRL
+./phys/module_fr_fire_util.F: fuel_left_jrl=2,       &
+./phys/module_fr_fire_core.F:#define JFCELLS (jte-jts+1)*fuel_left_jrl
+./phys/module_fr_fire_core.F:jr=fuel_left_jrl
+./phys/module_diag_misc.F:                     !,nssl_alphar,nssl_ehw0,nssl_ehlw0                & ! JRL
+./phys/module_diag_misc.F:                           ,nssl_alphah, nssl_alphahl             ! JRL
+./phys/module_diag_misc.F:                           !,nssl_alphar,nssl_ehw0,nssl_ehlwo       ! JRL
+./dyn_em/module_initialize_quarter_ss.F:                        ! a light easterly background flow - JRL July 2016
+./dyn_em/module_first_rk_step_part1.F:              ,L_INF=grid%L_INF & ! JRL
+./dyn_em/module_first_rk_step_part2.F:                        rw_tendf,t_tendf,moist_tend(ims,kms,jms,2), & ! JRL
+./dyn_em/module_first_rk_step_part2.F:                        grid%qke,grid%tsq,grid%qsq,config_flags%ashc, & ! JRL
+./dyn_em/module_first_rk_step_part2.F:                        config_flags%aml,grid%dx,grid%dt,             & ! JRL
+./dyn_em/module_first_rk_step_part2.F:                        grid%l_inf,config_flags%pbl_bl_physics,       & ! JRL
+./dyn_em/module_first_rk_step_part2.F:                        grid%w,grid%t,grid%q         ) ! JRL
+./dyn_em/module_stoch.F:                       rw_tendf,t_tendf,moist_tend,                & ! JRL
+./dyn_em/module_stoch.F:                       wvar2,tvar,qvar,ashc,aml,dx,dt,l_inf        & ! JRL
+./dyn_em/module_stoch.F:                       ,pbl_option,gridw,gridt,gridq  ) ! JRL
+./dyn_em/module_stoch.F:! JRL:  Kober and Craig modifications for PBL perturbations.
+./dyn_em/module_stoch.F:           ! JRL added w, removed u,v
+./dyn_em/module_stoch.F:       REAL , DIMENSION(ims:ime,jms:jme),INTENT(INOUT) :: L_INF  & ! JRL
+./dyn_em/module_stoch.F:       REAL :: gridpt_stddev_sppt ,thresh,sppt_thresh_fact,ashc,aml,dx,dt ! JRL
+./dyn_em/module_stoch.F:       REAL :: ash ! JRL
+./dyn_em/module_stoch.F:       INTEGER :: pbl_option ! JRL
+./dyn_em/module_stoch.F:! JRL - this has to be considered for Kober modification
+./dyn_em/module_stoch.F:! JRL include w
+./dyn_em/module_stoch.F:! JRL remove u,v
+./dyn_em/start_em.F:                      config_flags%nssl_alphar,                               & ! JRL
+./dyn_em/start_em.F:                      config_flags%nssl_ehw0,                               & ! JRL
+./dyn_em/start_em.F:                      config_flags%nssl_ehlw0,                               & ! JRL

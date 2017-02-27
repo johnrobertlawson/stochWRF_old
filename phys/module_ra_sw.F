@@ -410,6 +410,7 @@ CONTAINS
 !          XSCA=(1.E-5*XATP(K)+aer_dry1(K)*bext340+aer_water1(K)*bexth2o)/XMU
          beta=0.4*(1.0-XMU)+0.1
 !     CSSCA - CLEAR-SKY SCATTERING SET FROM NAMELIST SWRAD_SCAT
+! JRL - this is where stochasticism is introduced
          XSCA=(cssca*XATP(K)+beta*aer_dry1(K)*bext340*DZ(K) &
               +beta*aer_water1(K)*bexth2o*DZ(K))/XMU   
 

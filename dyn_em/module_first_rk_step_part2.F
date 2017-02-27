@@ -669,7 +669,9 @@ BENCH_END(update_phy_ten_tim)
                         k_start, k_end,                                      &
                         grid%num_stoch_levels,grid%num_stoch_levels,         &
                         grid%qke,grid%tsq,grid%qsq,config_flags%ashc, & ! JRL
-                        config_flags%aml,grid%dx,grid%dt              ) ! JRL
+                        config_flags%aml,grid%dx,grid%dt,             & ! JRL
+                        grid%l_inf,config_flags%pbl_bl_physics,       & ! JRL
+                        grid%w,grid%t,grid%q         ) ! JRL
            ENDDO
           !$OMP END PARALLEL DO
   ENDIF

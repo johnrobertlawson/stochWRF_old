@@ -718,7 +718,8 @@ IF (grid%sppt_on==1) then
                        ims, ime, jms, jme, kms, kme,                    &
                        its, ite, jts, jte, kts, kte,                    & 
                        kte_stoch,kme_stoch,                             &
-                       wvar2,tvar,qvar,ashc,aml,dx,dt              ) ! JRL
+                       wvar2,tvar,qvar,ashc,aml,dx,dt,l_inf        & ! JRL
+                       ,pbl_option,gridw,gridt,gridq  ) ! JRL
 
 !      This subroutine add stochastic perturbations of the form 
 !
@@ -733,10 +734,18 @@ IF (grid%sppt_on==1) then
 !       ash is the alpha_sh, scaling factor, that is computed elsewhere
 !       ash = ashc * (aml/5dx) * (1/dt)
 !           ashc = scaling constant, set in namelist
-!           aml = asymptotic mixing length, average size of eddy in PBL
+!           l_inf = asymptotic mixing length, average size of eddy in PBL
+!           aml = as l_inf, but a constant (for testing)
+!           --- looks like MYJ has l_inf and YSU,MYNN does not (use aml=150m)
 !           dx = horizontal grid spacing, set in namelist
 !           dt = time step, set in namelist
 !       wvar, tvar, qvar are variances in w, t, q from grid.
+
+!       pbl_option is the namelist option for pbl scheme
+!       gridw, gridt, gridq is the 3D field for w, t ,q
+!            (to compute variances for YSU and for testing)
+
+! aml should become a 2D variable varying in time? el0 in MYJ?
 
        IMPLICIT NONE
        INTEGER , INTENT(IN)        ::  ids, ide, jds, jde, kds, kde,   &
@@ -748,12 +757,15 @@ IF (grid%sppt_on==1) then
            ! JRL added w, removed u,v
                                         rw_tendf, t_tendf,moist_tend, &
                                         ! Added these:
-                                        wvar2, tvar, qvar
+                                        wvar2, tvar, qvar,            &
+                                        gridw, gridt, gridq
+       REAL , DIMENSION(ims:ime,jms:jme),INTENT(INOUT) :: L_INF  & ! JRL
        REAL , DIMENSION(ims:ime,kms:kme_stoch, jms:jme),INTENT(INOUT) :: rstoch
        REAL :: gridpt_stddev_sppt ,thresh,sppt_thresh_fact,ashc,aml,dx,dt ! JRL
        REAL :: ash ! JRL
 
        INTEGER :: I,J,K,kh
+       INTEGER :: pbl_option ! JRL
 
 ! Here the random process at each gridpoint is capped if it exceeds a value thresh 
 ! JRL - this has to be considered for Kober modification
@@ -779,23 +791,38 @@ IF (grid%sppt_on==1) then
 ! JRL remove u,v
 
        ! scaling coefficient
-       ash = ashc * (aml/(5.0*dx)) * (1.0/dt)
+       !ash = ashc * (aml/(5.0*dx)) * (1.0/dt)
+
+       ! This should be uncommented to test, or to use constant aml not l_inf
 
        !print*,'value of ash is'
        !print*,ash
-       if (.not.((ash > 1e-32) .and. (ash < 1e32))) then
+       !if (.not.((ash > 1e-32) .and. (ash < 1e32))) then
            !print*,'banana, ash'
-       end if
+       !end if
 
        !print*,wvar2
        !print*,qvar
        !print*,tvar
+       if (pbl_option == 1) then
+           ! Compute variances here - TODO
+           DO j = jts,MIN(jde-1,jte)
+             DO k = kts,kte-1
+               DO i = its,ite 
+                 wvar2 = SUM((gridw-(SUM(gridw)/SIZE(gridw)))**2)/SIZE(gridw)
+                 tvar = SUM((gridt-(SUM(gridt)/SIZE(gridt)))**2)/SIZE(gridt)
+                 qvar = SUM((gridq-(SUM(gridq)/SIZE(gridq)))**2)/SIZE(gridq)
+               ENDDO
+             ENDDO
+           ENDDO
+       endif
 
        DO j = jts,MIN(jde-1,jte)
          DO k = kts,kte-1
          kh = min( k, kte_stoch-1 ) 
            DO i = its,ite 
               !rw_tendf(i,k,j)      = rw_tendf(i,k,j)*(1.0 + rstoch(i,kh,j))
+              ash = ashc * (l_inf(i,j)/(5.0*dx)) * (1.0/dt)
               if (.not.((wvar2(i,k,j) > 1e-32) .and. (wvar2(i,k,j) < 1e32))) then
                   !print*,'banana, wvar2'
               elseif (wvar2(i,k,j).eq.0.0) then

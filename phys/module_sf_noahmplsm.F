@@ -696,6 +696,11 @@ contains
                      PAHV   ,PAHG   ,PAHB   ,QRAIN  ,QSNOW  ,SNOWHIN, & !out
 	             FWET   ,CMC                                    )   !out
 
+! JRL - edit soil moisture potentially here during first time step
+! with fractal model? itimestep = 0/1? from module_physics_init.F
+
+! MOISTURE PERTS HERE
+                 
 ! compute energy budget (momentum & energy fluxes and phase changes) 
 
     CALL ENERGY (parameters,ICE    ,VEGTYP ,IST    ,NSNOW  ,NSOIL  , & !in
@@ -1675,9 +1680,15 @@ contains
 ! ---------
 
   ! JRL --------
-  REAL                                              :: GX1    !temporary variable
+  REAL                                              :: GX1    !temporary variable - GX values
   REAL                                              :: GX2    !temporary variable
   REAL                                              :: GX3    !temporary variable
+  REAL                                              :: DD1    !temporary variable - Euclidian distance for morph
+  REAL                                              :: DD2    !temporary variable
+  REAL                                              :: DD3    !temporary variable
+  REAL                                              :: WW1    !temporary variable - Weighting for each GX value
+  REAL                                              :: WW2    !temporary variable
+  REAL                                              :: WW3    !temporary variable
   ! ------------
 
   REAL, DIMENSION(-NSNOW+1:NSOIL)                   :: PHI    !light through water (w/m2)
@@ -1853,7 +1864,7 @@ contains
             GX    = 1.-EXP(-5.8*(LOG(PSIWLT/PSI))) 
           END IF
           ! JRL -----------
-          IF (OPT_BTR) == 11) then
+          IF (OPT_BTR == 11) then
             GX1   = (SH2O(IZ)-parameters%SMCWLT(IZ)) / (parameters%SMCREF(IZ)-parameters%SMCWLT(IZ))
 
             PSI   = MAX(PSIWLT,-parameters%PSISAT(IZ)*(MAX(0.01,SH2O(IZ))/parameters%SMCMAX(IZ))**(-parameters%BEXP(IZ)) )
@@ -1862,8 +1873,15 @@ contains
             PSI   = MAX(PSIWLT,-parameters%PSISAT(IZ)*(MAX(0.01,SH2O(IZ))/parameters%SMCMAX(IZ))**(-parameters%BEXP(IZ)) )
             GX3   = 1.-EXP(-5.8*(LOG(PSIWLT/PSI))) 
 
-            ! This logic should compute weighted average of the three GXs
-            GX = MORPHR_BTR MORPHTH_BTR
+            ! IDW using Euclidian distances from polar coordinates.
+            ! Don't forget that MORPHR_* should be sampled from sqrt(0-1) distribution for uniform sampling
+            DD1 = SQRT(1.0+(MORPHR_BTR**2)-(2.0*MORPHR_BTR*COS(MORPHTH_BTR-((2*3.141)/1))))
+            DD2 = SQRT(1.0+(MORPHR_BTR**2)-(2.0*MORPHR_BTR*COS(MORPHTH_BTR-((2*3.141)/2))))
+            DD3 = SQRT(1.0+(MORPHR_BTR**2)-(2.0*MORPHR_BTR*COS(MORPHTH_BTR-((2*3.141)/3))))
+            WW1 = (1./DD1)/((1./DD1)+(1./DD2)+(1./DD3))
+            WW2 = (1./DD2)/((1./DD1)+(1./DD2)+(1./DD3))
+            WW3 = (1./DD3)/((1./DD1)+(1./DD2)+(1./DD3))
+            GX = WW1*GX1 + WW2*GX2 + WW3*GX3
           ! ----------------
 
        
@@ -3192,9 +3210,16 @@ contains
            ! Don't need temporary values for the other GAP and KOPEN values
            ! They're simple enough to write into this formula
 
-           MORPHR_RAD MORPHTH_RAD
-           GAP = (weight1* ) + (weight2*0.0) + (weight3*(1.0-FVEG))
-           KOPEN = (weight1*0.05) + (weight2*0.0) + (weight3*(1.0-FVEG))
+           ! IDW using Euclidian distances from polar coordinates.
+           ! Don't forget that MORPHR_* should be sampled from sqrt(0-1) distribution for uniform sampling
+           DD1 = SQRT(1.0+(MORPHR_RAD**2)-(2.0*MORPHR_RAD*COS(MORPHTH_RAD-((2*3.141)/1))))
+           DD2 = SQRT(1.0+(MORPHR_RAD**2)-(2.0*MORPHR_RAD*COS(MORPHTH_RAD-((2*3.141)/2))))
+           DD3 = SQRT(1.0+(MORPHR_RAD**2)-(2.0*MORPHR_RAD*COS(MORPHTH_RAD-((2*3.141)/3))))
+           WW1 = (1./DD1)/((1./DD1)+(1./DD2)+(1./DD3))
+           WW2 = (1./DD2)/((1./DD1)+(1./DD2)+(1./DD3))
+           WW3 = (1./DD3)/((1./DD1)+(1./DD2)+(1./DD3))
+           GAP = (WW1* ) + (WW2*0.0) + (WW3*(1.0-FVEG))
+           KOPEN = (WW1*0.05) + (WW2*0.0) + (WW3*(1.0-FVEG))
          END IF
          ! ---------------------
      end if

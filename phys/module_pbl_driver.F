@@ -124,6 +124,8 @@ CONTAINS
 !
 ! END FASDAS
 !
+! JRL
+              ,L_INF &
                                                                      )
        
 !------------------------------------------------------------------
@@ -502,7 +504,8 @@ CONTAINS
                                                             VOCE, &
                                                               T2, &
                                                            POWER, &
-                                                            WSPD
+                                                            WSPD, &
+                                                            L_INF ! JRL
 
 !
    REAL,       DIMENSION( ims:ime, kms:kme, jms:jme ),            &
@@ -1237,7 +1240,7 @@ CONTAINS
               ,IMS=ims,IME=ime,JMS=jms,JME=jme,KMS=kms,KME=kme      &
               ,ITS=its,ITE=ite,JTS=jts,JTE=jte,KTS=kts,KTE=kte      &
               ,DX=dx,DY=dy                                          &
-                                                                    )
+              ,TSQ=tsq,QSQ=qsq                      ! JRL
            ELSE
                WRITE ( message , FMT = '(A,7(L1,1X))' )             &
                  'present: '//                                      &
@@ -1433,7 +1436,7 @@ CONTAINS
               ,IDS=ids,IDE=ide,JDS=jds,JDE=jde,KDS=kds,KDE=kde      &
               ,IMS=ims,IME=ime,JMS=jms,JME=jme,KMS=kms,KME=kme      &
               ,ITS=its,ITE=ite,JTS=jts,JTE=jte,KTS=kts,KTE=kte      &
-                                                                    )
+              ,TSQ=tsq,QSQ=qsq,L_INF=l_inf                                ) ! JRL
             ELSE !(SF_URBAN_PHYSICS.EQ.2)
 ! Bep changes begin
 

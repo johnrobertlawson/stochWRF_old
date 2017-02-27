@@ -138,7 +138,8 @@
      &                 ,RQIBLTEN,RQSBLTEN,RQRBLTEN,RQGBLTEN            & !BSF
      &                 ,IDS,IDE,JDS,JDE,KDS,KDE                        &
      &                 ,IMS,IME,JMS,JME,KMS,KME                        &
-     &                 ,ITS,ITE,JTS,JTE,KTS,KTE)
+     &                 ,ITS,ITE,JTS,JTE,KTS,KTE                        &
+     &                 ,tsq,qsq,l_inf                                  ) ! JRL
 !----------------------------------------------------------------------
 !
       IMPLICIT NONE
@@ -153,6 +154,9 @@
       INTEGER,DIMENSION(IMS:IME,JMS:JME),INTENT(IN) :: LOWLYR
 !
       INTEGER,DIMENSION(IMS:IME,JMS:JME),INTENT(OUT) :: KPBL
+
+      INTEGER,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: L_INF ! JRL
+                            ! This is the aymptotic mixing ratio for PSP
 !
       REAL,INTENT(IN) :: DT
 !
@@ -168,8 +172,13 @@
       ! (tsq, qsq, and TKE_MYJ/2.0 respectively)
       ! tsq and qsq are 3D here. They are 1D in MYNN due to splitting?
 
-      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(INOUT) ::         & ! JRL
-                                              TSQ,QSQ,
+      ! Incoming should be 1D (k)
+      ! Solve problem here TODO 
+      ! REAL, DIMENSION(kts:kte), INTENT(out) :: tsq,qsq ! JRL
+
+
+      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(OUT) ::         & ! JRL
+                                              TSQ,QSQ
 
       REAL,OPTIONAL,INTENT(IN),DIMENSION(IMS:IME,KMS:KME,JMS:JME)::    &  !BSF
                                                 QV,QCW,QCI,QCS,QCR,QCG    !BSF
@@ -179,8 +188,8 @@
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: AKHS,AKMS
 !
       ! JRL - EL_MYJ is master turbulent length (l in paper)
-      ! JRL - after this is the tendencies of theta, u, v
-      ! JRL - need to do one for W ?
+      ! after this is the tendencies of theta, u, v
+      ! need to do one for W ?
       REAL, INTENT(OUT), DIMENSION(IMS:IME,KMS:KME,JMS:JME) ::         &   !BSF
      &                                         EL_MYJ,RTHBLTEN         &   !BSF
      &                                        ,RUBLTEN,RVBLTEN        
@@ -231,7 +240,8 @@
       REAL :: AKHS_DENS,AKMS_DENS,APEX,DELTAZ,DQDT,DTDIF,DTDT          &   !BSF
      &       ,DTTURBL,DUDT,DVDT,EXNSFC,PSFC,PTOP,QFC1,QLOW,QOLD        &
      &       ,RATIOMX,RDTTURBL,RG,RWMSK,SEAMASK,THNEW,THOLD,TX         &
-     &       ,ULOW,VLOW,WMSK
+     &       ,ULOW,VLOW,WMSK, &
+             ,DTHDZ,DQDZ  ! JRL
 !
       REAL, DIMENSION(NSPECS:NSPECE) :: CLOW,CTS,SZ0  !BSF
 !
@@ -241,6 +251,8 @@
       REAL, DIMENSION(NSPECS:NSPECE,KTS:KTE) :: SPECIES
 !
       REAL,DIMENSION(KTS:KTE-1) :: AKHK,AKMK,EL,GH,GM
+
+      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK ! JRL
 !
       REAL,DIMENSION(KTS:KTE+1) :: ZHK
 !
@@ -251,6 +263,8 @@
       REAL,DIMENSION(ITS:ITE,KTS:KTE,JTS:JTE) :: APE,THE, CWM  !BSF
 !
       REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: AKH,AKM
+
+      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM ! JRL
 !
       REAL,DIMENSION(ITS:ITE,KTS:KTE+1,JTS:JTE) :: ZINT
 !
@@ -412,7 +426,8 @@
      &               ,PBLH(I,J),LPBL(I,J),LMXL,CT(I,J),MIXHT(I,J)      &    !PLee (3/07)
      &               ,IDS,IDE,JDS,JDE,KDS,KDE                          &
      &               ,IMS,IME,JMS,JME,KMS,KME                          &
-     &               ,ITS,ITE,JTS,JTE,KTS,KTE)
+     &               ,ITS,ITE,JTS,JTE,KTS,KTE &
+                     ,L_INF(I,J) ) ! JRL
 !
 !----------------------------------------------------------------------
 !***
@@ -438,7 +453,8 @@
           CALL DIFCOF(LMH,LMXL,GM,GH,EL,TK,Q2K,ZHK,AKMK,AKHK      &
      &               ,IDS,IDE,JDS,JDE,KDS,KDE                          &
      &               ,IMS,IME,JMS,JME,KMS,KME                          &
-     &               ,ITS,ITE,JTS,JTE,KTS,KTE,PRINT_DIAG)   ! debug
+     &               ,ITS,ITE,JTS,JTE,KTS,KTE,PRINT_DIAG, &   ! debug
+                     ,ESHK,ESMK ) ! JRL
 !
 !***  COUNTING DOWNWARD FROM THE TOP, THE EXCHANGE COEFFICIENTS AKH 
 !***  ARE DEFINED ON THE BOTTOMS OF THE LAYERS KTS TO KTE-1.  
@@ -450,6 +466,8 @@
             KFLIP=KTE-K
             AKH(I,K,J)=AKHK(K)
             AKM(I,K,J)=AKMK(K)
+            ESH(I,K,J)=ESHK(K)
+            ESM(I,K,J)=ESMK(K)
             DELTAZ=0.5*(ZHK(KFLIP)-ZHK(KFLIP+2))
             EXCH_H(I,K,J)=AKHK(KFLIP)*DELTAZ
           ENDDO
@@ -766,6 +784,22 @@
             RUBLTEN(I,K,J)=DUDT
             RVBLTEN(I,K,J)=DVDT
           ENDDO
+
+          ! JRL - Compute variances -----------------
+          ! No W 
+          ! Need to make EL a varying field
+          ! Use KFLIP?
+          ! EL neds to be EL_MYJ, 3D field for master turb. len.
+
+          DO K=KTS,KTE
+            DTHDZ = (TH(I,K,J)-TH(I,K+2,J))/(2*DZ(I,K+1,J))
+            TSQ(I,K,J) = ((-B2*EL(K...))/TKE_MYJ(I,K,J))*EL(K...)* &
+                  TKE_MYJ(I,K,J)*ESH(I,K,J)*DTHDZ**2
+            DQDZ = (Q(I,K,J)-Q(I,K+2,J))/(2*DZ(I,K+1,J))
+            QSQ(I,K,J) = ((-B2*EL(K...))/TKE_MYJ(I,K,J))*EL(K...)* &
+                  TKE_MYJ(I,K,J)*ESH(I,K,J)*DQDZ**2
+            ! -----------------------------------------
+
 !
         ENDDO
 !----------------------------------------------------------------------
@@ -790,7 +824,9 @@
      &(LMH,U,V,T,THE,Q,CWM,Q2,Z,GM,GH,EL,PBLH,LPBL,LMXL,CT,MIXHT       &    !PLee(3/07)
      &,IDS,IDE,JDS,JDE,KDS,KDE                                         &
      &,IMS,IME,JMS,JME,KMS,KME                                         &
-     &,ITS,ITE,JTS,JTE,KTS,KTE)
+     &,ITS,ITE,JTS,JTE,KTS,KTE                                         &
+      ,EL0 ) ! JRL - this is L_INF state variable
+
 !----------------------------------------------------------------------
 !
       IMPLICIT NONE
@@ -818,8 +854,11 @@
 !***  LOCAL VARIABLES
 !***
       INTEGER :: K,LPBLM
+
+      REAL, INTENT(OUT) :: EL0 ! JRL
 !
-      REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,EL0,ELOQ2X,GHL,GML           &
+      !REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,EL0,ELOQ2X,GHL,GML           &
+      REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,ELOQ2X,GHL,GML           & ! JRL
      &       ,QOL2ST,QOL2UN,QDZL,RDZ,SQ,SREL,SZQ,TEM,THM,VKRMZ
 !
       REAL,DIMENSION(KTS:KTE) :: Q1
@@ -1189,7 +1228,8 @@
      &(LMH,LMXL,GM,GH,EL,T,Q2,Z,AKM,AKH                                &
      &,IDS,IDE,JDS,JDE,KDS,KDE                                         &
      &,IMS,IME,JMS,JME,KMS,KME                                         &
-     &,ITS,ITE,JTS,JTE,KTS,KTE,PRINT_DIAG)   ! debug
+     &,ITS,ITE,JTS,JTE,KTS,KTE,PRINT_DIAG, &   ! debug
+       ESH,ESM ) ! JRL
 !----------------------------------------------------------------------
 !
       IMPLICIT NONE
@@ -1214,7 +1254,10 @@
 !
       ! JRL - ESH and ESM are S_H , S_M
       REAL :: ADEN,AKMIN,BDEN,BESH,BESM,CDEN,D2T,ELL,ELOQ2,ELOQ4,ELQDZ &
-     &       ,ESH,ESM,GHL,GML,Q1L,RDEN,RDZ
+     !&       ,ESH,ESM,GHL,GML,Q1L,RDEN,RDZ
+     &       ,GHL,GML,Q1L,RDEN,RDZ ! JRL
+      
+      REAL, INTENT(OUT) :: ESH, ESM ! JRL
 !
 !*** Begin debugging
       INTEGER,INTENT(IN) :: PRINT_DIAG

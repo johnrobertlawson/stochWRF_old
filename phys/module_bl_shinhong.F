@@ -25,7 +25,8 @@ contains
                 !optional
                   ctopo,ctopo2,                                                &
                   wstar,delta,                                                 &
-                  regime                                           )
+                  regime                                                       &
+                  ,tsq,qsq ) ! JRL
 !-------------------------------------------------------------------------------
    implicit none
 !-------------------------------------------------------------------------------
@@ -201,7 +202,10 @@ contains
                                                                         dvsfc, &
                                                                         dtsfc, &
                                                                         dqsfc
-!
+
+   real :: dthdz, dqdz ! JRL
+   real,dimension(ims:ime,kms:kme,jms:jme),intent(out) ::   tsq,qsq ! JRL
+
    qv2d(its:ite,:) = 0.0
 !
    do j = jts,jte
@@ -269,6 +273,21 @@ contains
          rqvblten(i,k,j) = rqvbl2dt(i,k)
          rqcblten(i,k,j) = rqvbl2dt(i,k+kte)
          if(present(rqiblten)) rqiblten(i,k,j) = rqvbl2dt(i,k+kte+kte)
+         ! JRL - compute variances --------------------------
+         ! Assume B2 = 10.1 from MYNN and MYJ codes...
+         ! el_pbl is master turbulent length scale
+         ! what is kh is esh in MYNN (or el*tke*S_H)
+         ! xkzhl is the 2d array for KH I think?!
+         ! dz8w is dz
+         ! th3d is the 3d array for theta
+         ! qv3d is the 3d array for qv.
+         dthdz = (th3d(i,k,j)-th3d(i,k+2,j))/(2*dz8w(i,k+1,j))
+         tsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
+                  tke_pbl(i,k,j) * xkzhl(i,k) * dthdz**2
+         dqdz = (qv3d(i,k,j)-qv3d(i,k+2,j))/(2*dz8w(i,k+1,j))
+         qsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_myj(i,k,j)) * el_pbl(i,k,j) * &
+                  tke_myj(i,k,j) * xkzhl(i,k ) *dqdz**2
+         ! ----------------------------------------------------
        enddo
      enddo
 !
@@ -1956,7 +1975,7 @@ contains
    enddo
 !
 !  computation of asymptotic l in blackadar formula
-!
+
    el0=min(alph*szq*0.5/sq,el0max)
    el0=max(el0            ,el0min)
 !

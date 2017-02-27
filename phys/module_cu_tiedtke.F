@@ -1813,6 +1813,7 @@ contains
       if(lmfdudv) then
 !
         do jl=1,klon
+
         zdmfen(jl) = zdmfen(jl) + zoentr(jl,jk)
         zdmfde(jl) = zdmfde(jl) + zodetr(jl,jk)
            if(loflag(jl)) then
@@ -2924,6 +2925,7 @@ contains
         if (llo2) zdmfen(jl) = zentr
         llo2 = llo1.and.ktype(jl).eq.1
 ! turbulent entrainment
+! JRL - maybe implement Eq 5 and 11 from Kuell and Bott paper here
         if (llo2) zdmfen(jl) = zentr
 ! organized detrainment, detrainment starts at khmin
         ikb = kcbot(jl)
